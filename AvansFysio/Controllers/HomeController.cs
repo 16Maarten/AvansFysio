@@ -11,7 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace AvansFysio.Controllers
 {
@@ -19,7 +19,6 @@ namespace AvansFysio.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPatientRepository _patientRepository;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
         public HomeController(ILogger<HomeController> logger, IPatientRepository patientRepository)
         {
