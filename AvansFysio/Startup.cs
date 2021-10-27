@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using DomainServices;
+using Microsoft.AspNetCore.Identity;
 
 namespace AvansFysio
 {
@@ -27,7 +23,19 @@ namespace AvansFysio
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DbFysioContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddDbContext<DbSecurityContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Security")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DbSecurityContext>().AddDefaultTokenProviders();
+            services.AddAuthorization(options =>options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("Employee")));
+            services.AddAuthorization(options => options.AddPolicy("PatientOnly", policy => policy.RequireClaim("Patient")));
+
             services.AddScoped<IPatientRepository, PatientRepository>();
+            services.AddScoped<IPhysiotherapistRepository, PhysiotherapistRepository>();
+            services.AddScoped<IPatientFileRepository, PatientFileRepository>();
+            services.AddScoped<ITreatmentRepository, TreatmentRepository>();
+            services.AddScoped<ITreatmentPlanRepository, TreatmentPlanRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IRemarkRepository, RemarkRepository>();
             services.AddControllersWithViews();
         }
 
@@ -49,13 +57,14 @@ namespace AvansFysio
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

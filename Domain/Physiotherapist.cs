@@ -9,10 +9,15 @@ namespace Domain
     public class Physiotherapist : IPerson
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
         public string PhoneNumber { get; set; }
+        [Required]
         public int IdentificationNumber { get; set; }
+        [Required]
         public int BIGNumber { get; set; }
     }
 }

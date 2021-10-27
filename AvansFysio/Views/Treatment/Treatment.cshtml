@@ -1,0 +1,22 @@
+﻿@model TreatmentViewModel
+@{
+    ViewData["Title"] = "Behandeling";
+}
+
+<h1 class="avans font-weight-bold"> Behandeling op @Model.TreatmentDate</h1>
+<div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Behandeling op: @Model.TreatmentDate</li>
+        <li class="list-group-item">Type: @Model.Type</li>
+        <li class="list-group-item">Ruimte: @Model.Room</li>
+        <li class="list-group-item">Bijzonderheden: @Model.Specifics</li>
+        <li class="list-group-item">Beschrijving: @Model.Description</li>
+        @if (@Model.Student != null)
+        {
+        <li class="list-group-item"> Behandelaar: @Model.Student.Name</li>
+        }
+        else { 
+        <li class="list-group-item"> Behandelaar: @Model.Physiotherapist.Name</li>
+        }
+    </ul>
+</div>

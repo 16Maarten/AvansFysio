@@ -1,0 +1,18 @@
+﻿@model IEnumerable<PatientFileViewModel>
+@{
+    ViewData["Title"] = "Patientendossiers";
+}
+
+<h1 class="avans text-center font-weight-bold">Patientendossiers</h1>
+    @foreach (PatientFileViewModel patientFile in Model)
+    {
+        <div class="row">
+            <a class="btn avans-background btn-lg btn-block m-2 p-3" asp-action="PatientFile" asp-route-id="@patientFile.Id">Id: @patientFile.Id - Naam: @patientFile.Patient.Name - Code: @patientFile.DiagnosticCode</a>
+        </div>
+    }
+<a asp-action="PatientFileForm" class="btn btn-block avans-background">Toevoegen</a>
+
+
+
+
+

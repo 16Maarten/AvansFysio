@@ -19,3 +19,20 @@
 .validation-summary-valid {
     display: none;
 }
+
+.avans {
+    color: #C00000;
+}
+
+.avans-background {
+    background-color: #C00000;
+    color: white;
+}
+
+body {
+    font-family:Mukta;
+    background: url('/Images/achtergrond.png');
+    background-position:center;
+}
+
+

@@ -3,7 +3,7 @@
 <div>
     <div asp-validation-summary="All"></div>
     <div>
-        <form asp-action="FormPatient" method="post">
+        <form asp-action="FormPatient" method="post" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label asp-for="Name">Naam:</label>
@@ -26,10 +26,6 @@
             <div class="form-group">
                 <label asp-for="Birthday">geboortedatum:</label>
                 <input class="form-control" asp-for="Birthday" />
-            </div>
-            <div class="form-group">
-                <label >Afbeelding patient:</label>
-                <input type="file" name="Image" id="Imageinput">
             </div>
             <div class="form-group">
                 <label asp-for="Gender">Voer je gender in:</label>

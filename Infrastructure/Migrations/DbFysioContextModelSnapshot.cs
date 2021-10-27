@@ -30,9 +30,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdentificationNumber")
@@ -42,10 +44,15 @@ namespace Infrastructure.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Student")
+                        .HasColumnType("bit");
 
                     b.HasKey("PatientNumber");
 
@@ -62,17 +69,25 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionDiagnosticCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DiagnosticCode")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DischargeDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Discription")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("IntakeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NumberOfTreatments")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsStudent")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("PatientNumber")
                         .HasColumnType("int");
@@ -80,17 +95,21 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("PhysiotherapistId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Student")
-                        .HasColumnType("bit");
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Treatment")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TreatmentPlanId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PatientNumber");
 
                     b.HasIndex("PhysiotherapistId");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TreatmentPlanId");
 
                     b.ToTable("PatientFiles");
                 });
@@ -106,15 +125,18 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdentificationNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -130,9 +152,19 @@ namespace Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PatientFileId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PhysiotherapistId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RemarkDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Visible")
@@ -141,6 +173,10 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PatientFileId");
+
+                    b.HasIndex("PhysiotherapistId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Remarks");
                 });
@@ -153,15 +189,18 @@ namespace Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdentificationNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -179,21 +218,62 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PatientFileId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PhysiotherapistId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Room")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Specifics")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("TreatmentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PatientFileId");
+
+                    b.HasIndex("PhysiotherapistId");
+
+                    b.HasIndex("StudentId");
+
                     b.ToTable("Treatments");
+                });
+
+            modelBuilder.Entity("Domain.TreatmentPlan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DescriptionDiagnosticCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DiagnosticCode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DurationTreatment")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfTreatmentsPerWeek")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TreatmentPlan");
                 });
 
             modelBuilder.Entity("Domain.PatientFile", b =>
@@ -206,9 +286,21 @@ namespace Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("PhysiotherapistId");
 
+                    b.HasOne("Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.HasOne("Domain.TreatmentPlan", "TreatmentPlan")
+                        .WithMany()
+                        .HasForeignKey("TreatmentPlanId");
+
                     b.Navigation("Patient");
 
                     b.Navigation("Physiotherapist");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("TreatmentPlan");
                 });
 
             modelBuilder.Entity("Domain.Remark", b =>
@@ -216,11 +308,44 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.PatientFile", null)
                         .WithMany("Remarks")
                         .HasForeignKey("PatientFileId");
+
+                    b.HasOne("Domain.Physiotherapist", "Physiotherapist")
+                        .WithMany()
+                        .HasForeignKey("PhysiotherapistId");
+
+                    b.HasOne("Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.Navigation("Physiotherapist");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Domain.Treatment", b =>
+                {
+                    b.HasOne("Domain.PatientFile", null)
+                        .WithMany("Treatments")
+                        .HasForeignKey("PatientFileId");
+
+                    b.HasOne("Domain.Physiotherapist", "Physiotherapist")
+                        .WithMany()
+                        .HasForeignKey("PhysiotherapistId");
+
+                    b.HasOne("Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.Navigation("Physiotherapist");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Domain.PatientFile", b =>
                 {
                     b.Navigation("Remarks");
+
+                    b.Navigation("Treatments");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,6 +11,7 @@ namespace Infrastructure
         public DbSet<Physiotherapist> Physiotherapists { get; set; }
         public DbSet<Remark> Remarks { get; set; }
         public DbSet<PatientFile> PatientFiles { get; set; }
+        public DbSet<TreatmentPlan> TreatmentPlan { get; set; }
         public DbSet<Treatment> Treatments { get; set; }
         public DbFysioContext(DbContextOptions<DbFysioContext> contextOptions) : base(contextOptions)
         {

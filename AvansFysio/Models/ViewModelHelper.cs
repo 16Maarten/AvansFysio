@@ -16,11 +16,12 @@ namespace AvansFysio.Models
                 Email = patient.Email,
                 PhoneNumber = patient.PhoneNumber,
                 IdentificationNumber = patient.IdentificationNumber,
-                Img = patient.Img,
                 Birthday = patient.Birthday,
-                Gender = patient.Gender
-    };
+                Gender = patient.Gender,
+                Student = patient.Student
+            };
         }
+
         public static List<PatientsViewModel> ToViewModel(this IEnumerable<Patient> patients)
         {
             var  patientsViewModel = new List<PatientsViewModel>();
@@ -38,10 +39,10 @@ namespace AvansFysio.Models
                 Name = patient.Name,
                 Email = patient.Email,
                 PhoneNumber = patient.PhoneNumber,
-                IdentificationNumber = patient.IdentificationNumber,
                 Img = patient.Img,
                 Birthday = patient.Birthday,
-                Gender = patient.Gender
+                Gender = patient.Gender,
+                Student = patient.Student
             };
         }
     }

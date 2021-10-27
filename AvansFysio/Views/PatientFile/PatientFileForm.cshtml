@@ -1,0 +1,66 @@
+﻿@model AddPatientFileViewModel
+
+@{
+    ViewData["Title"] = "patiëntendossier toevoegen";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="avans text-center font-weight-bold">patiëntendossier</h1>
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PatientId">Patient</label>
+                <select class="form-control" asp-for="PatientId" asp-items="@ViewBag.Patients"></select>
+                <span asp-validation-for="PatientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description">Beschrijving klachten</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DiagnosticCode">DHCP Code</label>
+                <input asp-for="DiagnosticCode" class="form-control" />
+                <span asp-validation-for="DiagnosticCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-check-label" for="flexCheckDefault" asp-for="IsStudent">Is een student:</label>
+                <input class="form-control" type="checkbox" value="True" id="flexCheckDefault" asp-for="IsStudent" />
+            </div>
+            <div class="form-group">
+                <label asp-for="StudentId">Student</label>
+                <select class="form-control" asp-for="StudentId" asp-items="@ViewBag.Students"></select>
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhysiotherapistId">Fysiotherapeut</label>
+                <select class="form-control" asp-for="PhysiotherapistId" asp-items="@ViewBag.Physiotherapists"></select>
+                <span asp-validation-for="PhysiotherapistId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IntakeDate">intake datum</label>
+                <input asp-for="IntakeDate" class="form-control" value="@DateTime.Now"/>
+                <span asp-validation-for="IntakeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DischargeDate">Ontslag datum</label>
+                <input asp-for="DischargeDate" class="form-control" value="@DateTime.Now"/>
+            </div>
+            <h1 class="avans text-center font-weight-bold">Behandelplan</h1>
+            <div class="form-group">
+                <label asp-for="NumberOfTreatmentsPerWeek">Aantal behandelingen per week</label>
+                <input asp-for="NumberOfTreatmentsPerWeek" class="form-control" />
+                <span asp-validation-for="NumberOfTreatmentsPerWeek" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DurationTreatment">Duur sessie in minuten</label>
+                <input asp-for="DurationTreatment" class="form-control" />
+                <span asp-validation-for="DurationTreatment" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-block avans-background">Toevoegen</button>
+        </form>
+    </div>
+</div>

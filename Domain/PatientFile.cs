@@ -9,16 +9,27 @@ namespace Domain
     public class PatientFile
     {
         public int Id { get; set; }
+        [Required]
         public Patient Patient { get; set; }
+        [Required]
         public int Age { get; set; }
-        public string Discription { get; set; }
-        public Boolean Student { get; set; }
-        //public IPerson IntakePerson { get; set; }
+        [Required]
+        public string Description { get; set; }
+        [Required]
+        public int DiagnosticCode { get; set; }
+        [Required]
+        public string DescriptionDiagnosticCode { get; set; }
+        [Required]
+        public Boolean IsStudent { get; set; }
+        public Student Student { get; set; }
+        [Required]
         public Physiotherapist Physiotherapist { get; set; }
+        [Required]
         public DateTime IntakeDate { get; set; }
         public DateTime DischargeDate { get; set; }
         public ICollection<Remark> Remarks { get; set; }
-        public String Treatment { get; set; }
-        public int NumberOfTreatments { get; set; }
+        [Required]
+        public TreatmentPlan TreatmentPlan { get; set; }
+        public ICollection<Treatment> Treatments { get; set; }
     }
 }

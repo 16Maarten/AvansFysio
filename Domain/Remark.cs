@@ -9,11 +9,13 @@ namespace Domain
     public class Remark
     {
         public int Id { get; set; }
+        [Required]
         public string Description { get; set; }
-
-        public DateTime ReamrkDate { get; }
-        //public IPerson Person { get; set; }
-
+        [Required]
+        public DateTime RemarkDate { get; set; }
+        public Student Student { get; set; }
+        public Physiotherapist Physiotherapist { get; set; }
+        [Required]
         public Boolean Visible { get; set; }
     }
 }

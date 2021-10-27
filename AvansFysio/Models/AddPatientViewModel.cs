@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using AvansFysio.Attributes;
 
 namespace AvansFysio.Models
 {
@@ -18,14 +19,18 @@ namespace AvansFysio.Models
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Vul je studentNummer/personeelnummer in")]
         public int IdentificationNumber { get; set; }
-        [Required(ErrorMessage = "Please choose profile image")]
-        [Display(Name = "Profile Picture")]
-        public byte[] Img { get; set; }
+        public String Img { get; set; }
+
         [Required(ErrorMessage = "Vul je geboortedatum in")]
         [DataType(DataType.Date)]
+        [MinimumAge(16, ErrorMessage = "Je moet minimaal 16 zijn")]
         public DateTime Birthday { get; set; }
         [Required(ErrorMessage = "Vul je geslacht")]
         public String Gender { get; set; }
+        [Required(ErrorMessage = "Vul in of je fysiotherapeut bent")]
+        public Boolean Student { get; set; }
+
+
 
     }
 }
