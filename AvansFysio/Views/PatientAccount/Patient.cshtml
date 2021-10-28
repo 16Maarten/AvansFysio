@@ -1,0 +1,19 @@
+﻿@model PatientsViewModel
+@{
+    ViewData["Title"] = "Patient";
+}
+<div class="my-4">
+    <h1 class="avans font-weight-bold float-left">Patient</h1>
+    <a asp-action="PatientFormUpdate" asp-route-id="@Model.PatientNumber" class="btn avans-background  text-center float-right">Aanpassen</a>
+</div>
+<div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Naam: @Model.Name</li>
+        <li class="list-group-item">Email: @Model.Email</li>
+        <li class="list-group-item">Geboortedatum: @Model.Birthday.ToShortDateString()</li>
+        <li class="list-group-item">Student/personeelsnummer: @Model.IdentificationNumber</li>
+        <li class="list-group-item">Telefoonnummer: @Model.PhoneNumber</li>
+        <li class="list-group-item">Gender: @Model.Gender</li>
+        <li class="list-group-item">Img: @Model.Img</li>
+    </ul>
+</div>

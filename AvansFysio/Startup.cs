@@ -36,6 +36,7 @@ namespace AvansFysio
             services.AddScoped<ITreatmentPlanRepository, TreatmentPlanRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IRemarkRepository, RemarkRepository>();
+            services.AddScoped<IClaimRepository, ClaimRepository>();
             services.AddControllersWithViews();
         }
 

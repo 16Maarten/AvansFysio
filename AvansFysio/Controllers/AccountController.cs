@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AvansFysio.Controllers
@@ -19,14 +20,16 @@ namespace AvansFysio.Controllers
         private readonly IStudentRepository _studentRepository;
         private readonly IPhysiotherapistRepository _physiotherapistRepository;
         private readonly IPatientRepository _patientRepository;
+        private readonly IClaimRepository _claimRepository;
 
-        public AccountController(UserManager<IdentityUser> userManager,SignInManager<IdentityUser> signInManager, IPhysiotherapistRepository PhysiotherapistRepository, IStudentRepository studentRepository, IPatientRepository patientRepository)
+        public AccountController(IClaimRepository claimRepository, UserManager<IdentityUser> userManager,SignInManager<IdentityUser> signInManager, IPhysiotherapistRepository PhysiotherapistRepository, IStudentRepository studentRepository, IPatientRepository patientRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _physiotherapistRepository = PhysiotherapistRepository;
             _patientRepository = patientRepository;
             _studentRepository = studentRepository;
+            _claimRepository = claimRepository;
         }
         [HttpGet]
         [AllowAnonymous]
@@ -36,20 +39,32 @@ namespace AvansFysio.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel user)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel loginModel)
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password,false, false);
-
-                if (result.Succeeded)
+                var user = await _userManager.FindByNameAsync(loginModel.Email);
+                if (user != null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    await _signInManager.SignOutAsync();
+                    if ((await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, false)).Succeeded)
+                    {
+                        string claim = this._claimRepository.GetClaim(user.UserName);
+                        if (claim.Equals("Employee"))
+                        {
+                            return RedirectToAction("Index", "Patient");
+                        }
+                        if (claim.Equals("Patient"))
+                        {
+                            return RedirectToAction("Patient", "PatientAccount");
+                        } 
+                    }
                 }
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
 
             }
-            return View(user);
+            ModelState.AddModelError(string.Empty, "Verkeerde email of wachtwoord");
+            return View(loginModel);
         }
 
         public async Task<IActionResult> Logout()
@@ -64,6 +79,7 @@ namespace AvansFysio.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             var EmailsStudents = _studentRepository.GetAllStudents().Any(p => p.Email == model.Email);
@@ -76,39 +92,29 @@ namespace AvansFysio.Controllers
             }
             if (ModelState.IsValid)
             {
+                await _signInManager.SignOutAsync();
                 var user = new IdentityUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
                 };
 
-                var result = await _userManager.CreateAsync(user, model.Password);
 
-                if (result.Succeeded)
+                if ((await _userManager.CreateAsync(user, model.Password)).Succeeded)
                 {
-                    int employee = _physiotherapistRepository.GetAllPhysiotherapists().Where(p => p.Email.Equals(user.Email)).Count();
-                    employee = + _studentRepository.GetAllStudents().Where(p => p.Email.Equals(user.Email)).Count();
-                    if (employee == 1)
+                    await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    if (_physiotherapistRepository.GetAllPhysiotherapists().Any(p => p.Email.Equals(user.Email)) || _studentRepository.GetAllStudents().Any(p => p.Email.Equals(user.Email)))
                     {
                         await _userManager.AddClaimAsync(user, new Claim("Employee", "true"));
                     }
-                    int patient = _patientRepository.GetAllPatients().Where(p => p.Email.Equals(user.Email)).Count();
-                    if (patient == 1)
+                    if (_patientRepository.GetAllPatients().Any(p => p.Email.Equals(user.Email)))
                     {
                         await _userManager.AddClaimAsync(user, new Claim("Patient", "true"));
                     }
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    return RedirectToAction("index", "Home");
+                    return RedirectToAction("Login");
                 }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+                ModelState.AddModelError(string.Empty, "Registreren mislukt probeer opnieuw");
 
             }
             return View(model);

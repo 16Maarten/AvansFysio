@@ -27,12 +27,12 @@ namespace Infrastructure
 
         public IEnumerable<PatientFile> GetAllPatientFiles()
         {
-            return _context.PatientFiles.Include(b => b.Patient).ToList();
+            return _context.PatientFiles.Include(b => b.Patient).Include(b => b.Student).Include(b => b.Physiotherapist).Include(b => b.TreatmentPlan).Include(b => b.Remarks).ToList();
         }
 
         public PatientFile GetWhereIdPatientFile(int id)
         {
-            return _context.PatientFiles.Include(b => b.Patient).Include(b => b.Student).Include(b => b.Physiotherapist).Include(b => b.TreatmentPlan).Include(b => b.Remarks).Include(b => b.Treatments).FirstOrDefault(entity => entity.Id == id);
+            return _context.PatientFiles.Include(b => b.TreatmentPlan).Include(b => b.Treatments).Include(b => b.Patient).Include(b => b.Remarks).Include(b => b.Physiotherapist).Include(b => b.Student).FirstOrDefault(entity => entity.Id == id);
         }
 
         public async Task UpdatePatientFile(PatientFile patientFile)

@@ -1,7 +1,7 @@
 ﻿@model AddTreatmentViewModel
 
 @{
-    ViewData["Title"] = "Behandeling toevoegen";
+    ViewData["Title"] = "Behandeling aanpassen";
 }
 
 
@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Specifics">Bijzonderheden</label>
-                <input asp-for="Specifics" class="form-control" />
+                <textarea asp-for="Specifics" class="form-control"></textarea>
                 <span asp-validation-for="Specifics" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -41,7 +41,7 @@
                 <input asp-for="TreatmentDate" class="form-control" />
                 <span asp-validation-for="TreatmentDate" class="text-danger"></span>
             </div>
-            <button type="submit" asp-route-id="@Model.PatientFileId" class="btn btn-block avans-background">Toevoegen</button>
+            <button type="submit" asp-route-id="@Model.PatientFileId" class="btn btn-block avans-background">Aanpassen</button>
         </form>
     </div>
 </div>

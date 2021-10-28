@@ -3,42 +3,70 @@
     ViewData["Title"] = "Patient dossier";
 }
 
-<h1 class="avans font-weight-bold">Patient dossier van @Model.Patient.Name</h1>
-<div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">Patient: @Model.Patient.Name</li>
-        <li class="list-group-item">Leeftijd: @Model.Age</li>
-        <li class="list-group-item">Beschrijving Klachten: @Model.Description</li>
-        <li class="list-group-item">DHCPCode: @Model.DiagnosticCode</li>
-        <li class="list-group-item">Beschrijving DHCPCode: @Model.DescriptionDiagnosticCode</li>
-        @if (@Model.Student != null)
-        {
-            <li class="list-group-item"> Behandelend student: @Model.Student.Name</li>
+    <h1 class="avans font-weight-bold">Patient dossier van @Model.Patient.Name</h1>
+    <div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Patient: @Model.Patient.Name</li>
+            <li class="list-group-item">Leeftijd: @Model.Age</li>
+            <li class="list-group-item">Beschrijving Klachten: @Model.Description</li>
+            <li class="list-group-item">DHCPCode: @Model.DiagnosticCode</li>
+            <li class="list-group-item">Beschrijving DHCPCode: @Model.DescriptionDiagnosticCode</li>
+            @if (@Model.Student != null)
+            {
+                <li class="list-group-item"> Behandelend student: @Model.Student.Name</li>
 
+            }
+            <li class="list-group-item">Fysiotherapeut: @Model.Physiotherapist.Name</li>
+            <li class="list-group-item">Intake datum: @Model.IntakeDate.ToShortDateString()</li>
+            <li class="list-group-item">Ontslag datum: @Model.DischargeDate.ToShortDateString()</li>
+        </ul>
+        <h2 class="avans font-weight-bold m-3">Behandelplan</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Aantal behandelingen per week: @Model.TreatmentPlan.NumberOfTreatmentsPerWeek</li>
+            <li class="list-group-item">Duur 1 behandeling in minuten: @Model.TreatmentPlan.DurationTreatment</li>
+        </ul>
+        <div class="dropdown-divider font-weight-bold"></div>
+        <div class="my-4">
+            <h2 class="avans font-weight-bold float-left">Behandelingen</h2>
+            <a asp-controller="Treatment" asp-action="TreatmentForm" asp-route-id="@Model.Id" class="btn avans-background  text-center float-right">Toevoegen</a>
+        </div>
+        <br>
+        <br>
+        @foreach (TreatmentViewModel treatment in Model.Treatments.ToViewModel())
+        {
+            <div class="card m-2">
+                <div class="card-body">
+                    <h5 class="card-title">Behandeling op @treatment.TreatmentDate</h5>
+                    <p class="card-text float-left">
+                        Ruimte: @treatment.Room
+                        <br />
+                        Beschrijving: @treatment.Description
+                    </p>
+                    <a class="btn avans-background float-right m-2" asp-controller="Treatment" asp-action="Treatment" asp-route-id="@treatment.Id">Bekijken</a>
+                </div>
+            </div>
         }
-        <li class="list-group-item">Fysiotherapeut:: @Model.Physiotherapist.Name</li>
-        <li class="list-group-item">Intake datum: @Model.IntakeDate.Date</li>
-        <li class="list-group-item">Ontslag datum: @Model.DischargeDate.Date</li>
-    </ul>
-    <h2 class="avans font-weight-bold m-3">Behandelplan</h2>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">Aantal behandelingen per week: @Model.TreatmentPlan.NumberOfTreatmentsPerWeek</li>
-        <li class="list-group-item">Duur 1 behandeling in minuten: @Model.TreatmentPlan.DurationTreatment</li>
-    </ul>
-    <h2 class="avans font-weight-bold m-3">Behandelingen</h2>
-    @foreach (TreatmentViewModel treatment in Model.Treatments.ToViewModel())
-    {
-        <div class="row">
-            <a class="btn avans-background btn-lg btn-block m-2 p-3" asp-controller="Treatment" asp-action="Treatment" asp-route-id="@treatment.Id">Id: @treatment.Id - Datum: @treatment.TreatmentDate - Ruimte: @treatment.Room</a>
+        <div class="dropdown-divider"></div>
+        <div class="my-4">
+            <h2 class="avans font-weight-bold float-left">Opmerkingen</h2>
+            <a asp-controller="Remark" asp-action="RemarkForm" asp-route-id="@Model.Id" class="btn avans-background  text-center float-right">Toevoegen</a>
         </div>
-    }
-    <a asp-controller="Treatment" asp-action="TreatmentForm" asp-route-id="@Model.Id" class="btn btn-block avans-background">Toevoegen</a>
-    <h2 class="avans font-weight-bold m-3">Opmerkingen</h2>
-    @foreach (RemarkViewModel remark in Model.Remarks.ToViewModel())
-    {
-        <div class="row">
-            <a class="btn avans-background btn-lg btn-block m-2 p-3" asp-controller="Remark" asp-action="Remark" asp-route-id="@remark.Id">Id: @remark.Id - Datum: @remark.RemarkDate</a>
+        <br>
+        <br>
+        @foreach (RemarkViewModel remark in Model.Remarks.ToViewModel())
+        {
+    <div class="card m-2">
+        <div class="card-header">
+            Opmerking op: @remark.RemarkDate
         </div>
-    }
-    <a asp-controller="Remark" asp-action="RemarkForm" asp-route-id="@Model.Id" class="btn btn-block avans-background">Toevoegen</a>
-</div>
+        <div class="card-body">
+            <h5 class="card-title">beschrijving:</h5>
+            <p class="card-text float-left">@remark.Description</p>
+            <a class="btn avans-background float-right m-2" asp-controller="Remark" asp-action="Remark" asp-route-id="@remark.Id">Bekijken</a>
+        </div>
+    </div>
+        }
+    </div>
+    <div>
+        <a class="btn avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Back</a>
+    </div>

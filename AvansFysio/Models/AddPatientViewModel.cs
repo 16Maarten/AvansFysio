@@ -19,7 +19,7 @@ namespace AvansFysio.Models
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Vul je studentNummer/personeelnummer in")]
         public int IdentificationNumber { get; set; }
-        public String Img { get; set; }
+        public Byte[] Img { get; set; }
 
         [Required(ErrorMessage = "Vul je geboortedatum in")]
         [DataType(DataType.Date)]
@@ -27,10 +27,5 @@ namespace AvansFysio.Models
         public DateTime Birthday { get; set; }
         [Required(ErrorMessage = "Vul je geslacht")]
         public String Gender { get; set; }
-        [Required(ErrorMessage = "Vul in of je fysiotherapeut bent")]
-        public Boolean Student { get; set; }
-
-
-
     }
 }

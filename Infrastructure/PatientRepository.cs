@@ -43,10 +43,10 @@ namespace Infrastructure
             _context.SaveChanges();
         }
 
-        public void UpdatePatient(Patient patient)
+        public async Task UpdatePatient(Patient patient)
         {
             _context.Update(patient);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -16,7 +16,6 @@ namespace AvansFysio.Models
         public string Description { get; set; }
         [Required(ErrorMessage = "Voer een Code in")]
         public int DiagnosticCode { get; set; }
-        [Required(ErrorMessage = "Voer in of de patient een student is")]
         public Boolean IsStudent { get; set; }
         public int StudentId { get; set; }
         public Student Student { get; set; }

@@ -29,7 +29,8 @@ namespace AvansFysio.Models
                     Student = treatment.Student,
                     Physiotherapist = treatment.Physiotherapist,
                     Specifics = treatment.Specifics,
-                    TreatmentDate = treatment.TreatmentDate
+                    TreatmentDate = treatment.TreatmentDate,
+                    CreationDate = treatment.CreationDate
                 };
             }
         }

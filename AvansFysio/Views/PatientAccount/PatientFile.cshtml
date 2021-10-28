@@ -1,0 +1,53 @@
+﻿@model PatientFileViewModel
+@{
+    ViewData["Title"] = "Patient dossier";
+}
+@if (Model != null)
+{
+    <h1 class="avans font-weight-bold">Patient dossier van @Model.Patient.Name</h1>
+    <div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Patient: @Model.Patient.Name</li>
+            <li class="list-group-item">Leeftijd: @Model.Age</li>
+            <li class="list-group-item">Beschrijving Klachten: @Model.Description</li>
+            <li class="list-group-item">DHCPCode: @Model.DiagnosticCode</li>
+            <li class="list-group-item">Beschrijving DHCPCode: @Model.DescriptionDiagnosticCode</li>
+            @if (Model.Student != null)
+            {
+                <li class="list-group-item"> Behandelend student: @Model.Student.Name</li>
+
+            }
+            <li class="list-group-item">Fysiotherapeut: @Model.Physiotherapist.Name</li>
+            <li class="list-group-item">Intake datum: @Model.IntakeDate.ToShortDateString()</li>
+            <li class="list-group-item">Ontslag datum: @Model.DischargeDate.ToShortDateString()</li>
+        </ul>
+        <h2 class="avans font-weight-bold m-3">Behandelplan</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Aantal behandelingen per week: @Model.TreatmentPlan.NumberOfTreatmentsPerWeek</li>
+            <li class="list-group-item">Duur 1 behandeling in minuten: @Model.TreatmentPlan.DurationTreatment</li>
+        </ul>
+        <div class="dropdown-divider"></div>
+        <div class="my-4">
+            <h2 class="avans font-weight-bold float-left">Opmerkingen</h2>
+        </div>
+        <br>
+        <br>
+        @foreach (RemarkViewModel remark in Model.Remarks.ToViewModel().Where(c => c.Visible == true))
+        {
+            <div class="card m-2">
+                <div class="card-header">
+                    Opmerking op: @remark.RemarkDate
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">beschrijving:</h5>
+                    <p class="card-text float-left">@remark.Description</p>
+                    <a class="btn avans-background float-right m-2" asp-controller="Remark" asp-action="Remark" asp-route-id="@remark.Id">Bekijken</a>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h1 class="avans text-center font-weight-bold">Er is geen patientendossier beschikbaar</h1>
+}

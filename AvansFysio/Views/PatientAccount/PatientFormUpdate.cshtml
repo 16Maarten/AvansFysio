@@ -1,0 +1,16 @@
+﻿@model AvansFysio.Models.UpdatePatientAccountViewModel
+
+<div>
+    <div>
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="PhoneNumber">Telefoonnummer:</label>
+                <input class="form-control" asp-for="PhoneNumber" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <button type="submit" class="btn btn-primary col-sm-4 text-center">Aanpassen</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -24,8 +24,6 @@ namespace Domain
         public DateTime Birthday { get; set; }
         [Required]
         public string Gender { get; set; }
-        [Required]
-        public Boolean Student { get; set; }
 
     }
 }

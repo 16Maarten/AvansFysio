@@ -20,5 +20,6 @@ namespace Domain
         [Required]
 
         public DateTime TreatmentDate { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

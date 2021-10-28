@@ -3,7 +3,14 @@
     ViewData["Title"] = "Behandeling";
 }
 
-<h1 class="avans font-weight-bold"> Behandeling op @Model.TreatmentDate</h1>
+<div class="my-4">
+    <h1 class="avans font-weight-bold float-left">Behandeling</h1>
+    @if (@Model.CreationDate.Date == DateTime.Now.Date)
+    {
+        <a asp-action="TreatmentFormUpdate" asp-route-id="@Model.Id" class="btn avans-background  text-center float-right mx-1">Aanpassen</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn avans-background  text-center float-right mx-1">Verwijderen</a>
+    }
+</div>
 <div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">Behandeling op: @Model.TreatmentDate</li>
@@ -13,10 +20,15 @@
         <li class="list-group-item">Beschrijving: @Model.Description</li>
         @if (@Model.Student != null)
         {
-        <li class="list-group-item"> Behandelaar: @Model.Student.Name</li>
+            <li class="list-group-item"> Behandelaar: @Model.Student.Name</li>
         }
-        else { 
-        <li class="list-group-item"> Behandelaar: @Model.Physiotherapist.Name</li>
+        else
+        {
+            <li class="list-group-item"> Behandelaar: @Model.Physiotherapist.Name</li>
         }
+        <li class="list-group-item">Aangemaakt op: @Model.CreationDate.ToShortDateString()</li>
     </ul>
+</div>
+<div>
+    <a class="btn avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Back</a>
 </div>

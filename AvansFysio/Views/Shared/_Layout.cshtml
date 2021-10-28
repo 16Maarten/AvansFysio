@@ -22,16 +22,16 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.Claims.Any(c => c.Type == "Employee"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="PatientFile" asp-action="Index">Patientendossiers</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="FormPatient">Patient toevoegen</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Patient" asp-action="Index">Patienten</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Patient" asp-action="Index">Agenda</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Logout">Uitloggen</a>
@@ -40,7 +40,16 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Inloggen</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="PatientAccount" asp-action="PatientFile">Patientendossier</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="PatientAccount" asp-action="Patient">Gegevens</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="PatientAccount" asp-action="Index">Afspraken</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Logout">Uitloggen</a>
                             </li>
                         }
                     </ul>

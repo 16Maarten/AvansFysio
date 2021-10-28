@@ -1,0 +1,23 @@
+﻿@model IEnumerable<PatientsViewModel>
+@{
+    ViewData["Title"] = "Patients";
+}
+
+<div class="my-4">
+    <h2 class="avans font-weight-bold float-left">Patienten</h2>
+    <a asp-action="FormPatient" class="btn avans-background  text-center float-right">Toevoegen</a>
+</div>
+@foreach (PatientsViewModel patient in Model)
+{
+<div class="card m-1">
+    <div class="card-body">
+        <h5 class="card-title">Patient: @patient.Name</h5>
+        <p class="card-text float-left">
+            Email: @patient.Email
+            <br />
+            Telefoonnummer: @patient.PhoneNumber
+        </p>
+        <a class="btn avans-background float-right m-2" asp-action="Patient" asp-route-id="@patient.PatientNumber">Bekijken</a>
+    </div>
+</div>
+}

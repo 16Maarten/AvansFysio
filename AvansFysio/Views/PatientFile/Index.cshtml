@@ -3,14 +3,24 @@
     ViewData["Title"] = "Patientendossiers";
 }
 
-<h1 class="avans text-center font-weight-bold">Patientendossiers</h1>
-    @foreach (PatientFileViewModel patientFile in Model)
-    {
-        <div class="row">
-            <a class="btn avans-background btn-lg btn-block m-2 p-3" asp-action="PatientFile" asp-route-id="@patientFile.Id">Id: @patientFile.Id - Naam: @patientFile.Patient.Name - Code: @patientFile.DiagnosticCode</a>
+<div class="my-4">
+    <h2 class="avans font-weight-bold float-left">Patientendossiers</h2>
+    <a asp-action="PatientFileForm" class="btn avans-background  text-center float-right">Toevoegen</a>
+</div>
+@foreach (PatientFileViewModel patientFile in Model)
+{
+    <div class="card m-1">
+        <div class="card-body">
+            <h5 class="card-title">Patientendossier van: @patientFile.Patient.Name</h5>
+            <p class="card-text float-left">
+                Intake datum: @patientFile.IntakeDate.ToShortDateString()
+                <br />
+                DHCP Code: @patientFile.DiagnosticCode
+            </p>
+            <a class="btn avans-background float-right m-2" asp-action="PatientFile" asp-route-id="@patientFile.Id">Bekijken</a>
         </div>
-    }
-<a asp-action="PatientFileForm" class="btn btn-block avans-background">Toevoegen</a>
+    </div>
+}
 
 
 

@@ -11,7 +11,7 @@ namespace DomainServices
     {
         Task AddPatient(Patient patient);
         public void RemovePatient(Patient patient);
-        public void UpdatePatient(Patient patient);
+        Task UpdatePatient(Patient patient);
         public Patient GetWhereIdPatient(int id);
         public IEnumerable<Patient> GetAllPatients();
         public int CountPatients();

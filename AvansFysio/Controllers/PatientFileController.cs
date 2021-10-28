@@ -1,6 +1,7 @@
 ﻿using AvansFysio.Models;
 using Domain;
 using DomainServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace AvansFysio.Controllers
 {
+    [Authorize(Policy = "EmployeeOnly")]
     public class PatientFileController : Controller
     {
         private readonly IPatientRepository _patientRepository;
@@ -125,7 +127,7 @@ namespace AvansFysio.Controllers
                     result.DischargeDate = patientFile.DischargeDate;
 
                 await _patientFileRepository.AddPatientFile(result);
-                return RedirectToAction("PatientFileForm");
+                return RedirectToAction("Index");
             }
             else
             {

@@ -17,8 +17,7 @@ namespace AvansFysio.Models
                 PhoneNumber = patient.PhoneNumber,
                 IdentificationNumber = patient.IdentificationNumber,
                 Birthday = patient.Birthday,
-                Gender = patient.Gender,
-                Student = patient.Student
+                Gender = patient.Gender
             };
         }
 
@@ -36,13 +35,14 @@ namespace AvansFysio.Models
         {
             return new PatientsViewModel
             {
+                PatientNumber = patient.PatientNumber,
+                IdentificationNumber = patient.IdentificationNumber,
                 Name = patient.Name,
                 Email = patient.Email,
                 PhoneNumber = patient.PhoneNumber,
                 Img = patient.Img,
                 Birthday = patient.Birthday,
-                Gender = patient.Gender,
-                Student = patient.Student
+                Gender = patient.Gender
             };
         }
     }
