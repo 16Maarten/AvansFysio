@@ -8,7 +8,7 @@ namespace AvansFysio.Models
 {
     public class UpdatePatientAccountViewModel
     {
-        [Required(ErrorMessage = "Vul je telefoonnumeer in")]
+        [Required(ErrorMessage = "Vul een telefoonnummer in")]
         [Phone]
         public string PhoneNumber { get; set; }
         public int PatientId { get; set; }

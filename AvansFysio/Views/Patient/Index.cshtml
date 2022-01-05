@@ -5,7 +5,7 @@
 
 <div class="my-4">
     <h2 class="avans font-weight-bold float-left">Patienten</h2>
-    <a asp-action="FormPatient" class="btn avans-background  text-center float-right">Toevoegen</a>
+    <a asp-action="FormPatient" class="btn btn-danger avans-background  text-center float-right">Toevoegen</a>
 </div>
 @foreach (PatientsViewModel patient in Model)
 {
@@ -17,7 +17,7 @@
             <br />
             Telefoonnummer: @patient.PhoneNumber
         </p>
-        <a class="btn avans-background float-right m-2" asp-action="Patient" asp-route-id="@patient.PatientNumber">Bekijken</a>
+        <a class="btn btn-danger avans-background float-right m-2" asp-action="Patient" asp-route-id="@patient.PatientNumber">Bekijken</a>
     </div>
 </div>
 }

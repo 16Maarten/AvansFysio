@@ -10,7 +10,7 @@
         <h1 class="avans text-center font-weight-bold">Opmerking</h1>
         <form method="post">
             <div class="form-group">
-                <label asp-for="Description">Beschrijving klachten</label>
+                <label asp-for="Description">Opmerking</label>
                 <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -19,7 +19,11 @@
                 <input name="Confirm" type="hidden" value="false">
                 <label asp-for="Visibility" class="custom-control-label">Zichtbaar voor patient</label>
             </div>
-            <button type="submit" asp-route-id="@Model.PatientFileId" class="btn btn-block avans-background">Toevoegen</button>
+            <button type="submit" asp-route-id="@Model.PatientFileId" class="btn btn-danger btn-block avans-background">Toevoegen</button>
         </form>
     </div>
+</div>
+<br />
+<div>
+    <a class="btn btn-danger avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Terug</a>
 </div>

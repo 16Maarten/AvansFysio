@@ -40,8 +40,8 @@ namespace Infrastructure.Migrations
                     b.Property<int>("IdentificationNumber")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Img")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Img")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -41,5 +41,11 @@ namespace Infrastructure
             await _context.SaveChangesAsync();
         }
 
+        public async Task RemovePatientFile(PatientFile patientFile)
+        {
+            _context.Remove(patientFile);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

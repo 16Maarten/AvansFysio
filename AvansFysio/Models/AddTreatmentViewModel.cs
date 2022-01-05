@@ -13,7 +13,6 @@ namespace AvansFysio.Models
         public string Type { get; set; }
         [Required(ErrorMessage = "Vul het patientdossier in")]
         public int PatientFileId { get; set; }
-        public string Description { get; set; }
         public string Room { get; set; }
         public string Specifics { get; set; }
         public string PersonEmail { get; set; }

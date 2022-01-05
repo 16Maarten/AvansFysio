@@ -1,49 +1,58 @@
 ﻿@model AvansFysio.Models.AddPatientViewModel
-
+@{
+    ViewData["Title"] = "Patient toevoegen";
+}
 <div>
-    <div>
-        <form asp-action="FormPatient" method="post" enctype="multipart/form-data">
+    <h1 class="avans text-center font-weight-bold">Patiënt toevoegen</h1>
+    <form method="post" enctype="multipart/form-data">
 
-            <div class="form-group">
-                <label asp-for="Name">Naam:</label>
-                <input class="form-control" asp-for="Name" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+        <div class="form-group">
+            <label asp-for="Name">Naam:</label>
+            <input class="form-control" asp-for="Name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Email">Email:</label>
-                <input class="form-control" asp-for="Email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+        <div class="form-group">
+            <label asp-for="Email">Email:</label>
+            <input class="form-control" asp-for="Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="PhoneNumber">Telefoonnummer:</label>
-                <input class="form-control" asp-for="PhoneNumber" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdentificationNumber">Studentnummer/Personeelsnummer:</label>
-                <input class="form-control" asp-for="IdentificationNumber" />
-                <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Birthday">geboortedatum:</label>
-                <input class="form-control" asp-for="Birthday" />
-                <span asp-validation-for="Birthday" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender">Voer je gender in:</label>
-                <select asp-for="Gender" class="form-control">
-                    <option value="Man">Man</option>
-                    <option value="Vrouw">Vrouw</option>
-                    <option value="X">X</option>
-                </select>
-            </div>
-            <div class="form-group row">
-                <button class="btn btn-primary col-sm-4 text-center">Patient toevoegen</button>
-            </div>
-        </form>
-    </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber">Telefoonnummer:</label>
+            <input class="form-control" asp-for="PhoneNumber" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdentificationNumber">Studentnummer/Personeelsnummer:</label>
+            <input class="form-control" asp-for="IdentificationNumber" />
+            <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Birthday">geboortedatum:</label>
+            <input class="form-control" asp-for="Birthday" />
+            <span asp-validation-for="Birthday" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Gender">Voer je gender in:</label>
+            <select asp-for="Gender" class="form-control">
+                <option value="Man">Man</option>
+                <option value="Vrouw">Vrouw</option>
+                <option value="X">X</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Img">Afbeelding uploaden (max. 2MB)</label>
+            <div><span asp-validation-for="Img" class="text-danger"></span></div>
+            <input asp-for="Img" class="form-control-file" type="file" accept="image/*" />
+        </div>
+        <div class="form-group row">
+            <button type="submit" class="btn btn-danger btn-block avans-background">Patient toevoegen</button>
+        </div>
+    </form>
 </div>
-
+<br />
+<div>
+    <a class="btn btn-danger avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Terug</a>
+</div>
 

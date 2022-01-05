@@ -2,8 +2,10 @@
 @{
     ViewData["Title"] = "Patient dossier";
 }
-
-    <h1 class="avans font-weight-bold">Patient dossier van @Model.Patient.Name</h1>
+    <div class="my-4">
+    <h1 class="avans font-weight-bold float-left">Patient dossier van @Model.Patient.Name</h1>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger avans-background  text-center float-right mx-1">Verwijderen</a>
+    </div>
     <div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Patient: @Model.Patient.Name</li>
@@ -28,7 +30,7 @@
         <div class="dropdown-divider font-weight-bold"></div>
         <div class="my-4">
             <h2 class="avans font-weight-bold float-left">Behandelingen</h2>
-            <a asp-controller="Treatment" asp-action="TreatmentForm" asp-route-id="@Model.Id" class="btn avans-background  text-center float-right">Toevoegen</a>
+            @if (Model.IntakeDate < DateTime.Now && Model.DischargeDate > DateTime.Now) {<a asp-controller="Treatment" asp-action="TreatmentForm" asp-route-id="@Model.Id" class="btn btn-danger avans-background  text-center float-right">Toevoegen</a>}
         </div>
         <br>
         <br>
@@ -42,31 +44,31 @@
                         <br />
                         Beschrijving: @treatment.Description
                     </p>
-                    <a class="btn avans-background float-right m-2" asp-controller="Treatment" asp-action="Treatment" asp-route-id="@treatment.Id">Bekijken</a>
+                    <a class="btn btn-danger avans-background float-right m-2" asp-controller="Treatment" asp-action="Treatment" asp-route-id="@treatment.Id">Bekijken</a>
                 </div>
             </div>
         }
         <div class="dropdown-divider"></div>
         <div class="my-4">
             <h2 class="avans font-weight-bold float-left">Opmerkingen</h2>
-            <a asp-controller="Remark" asp-action="RemarkForm" asp-route-id="@Model.Id" class="btn avans-background  text-center float-right">Toevoegen</a>
+            <a asp-controller="Remark" asp-action="RemarkForm" asp-route-id="@Model.Id" class="btn btn-danger avans-background  text-center float-right">Toevoegen</a>
         </div>
         <br>
         <br>
         @foreach (RemarkViewModel remark in Model.Remarks.ToViewModel())
         {
-    <div class="card m-2">
-        <div class="card-header">
-            Opmerking op: @remark.RemarkDate
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">beschrijving:</h5>
-            <p class="card-text float-left">@remark.Description</p>
-            <a class="btn avans-background float-right m-2" asp-controller="Remark" asp-action="Remark" asp-route-id="@remark.Id">Bekijken</a>
-        </div>
-    </div>
+            <div class="card m-2">
+                <div class="card-header">
+                    Opmerking op: @remark.RemarkDate
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">beschrijving:</h5>
+                    <p class="card-text float-left">@remark.Description</p>
+                    <a class="btn btn-danger avans-background float-right m-2" asp-controller="Remark" asp-action="Remark" asp-route-id="@remark.Id">Bekijken</a>
+                </div>
+            </div>
         }
     </div>
     <div>
-        <a class="btn avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Back</a>
+        <a class="btn btn-danger avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Terug</a>
     </div>

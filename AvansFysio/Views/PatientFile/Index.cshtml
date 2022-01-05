@@ -5,7 +5,7 @@
 
 <div class="my-4">
     <h2 class="avans font-weight-bold float-left">Patientendossiers</h2>
-    <a asp-action="PatientFileForm" class="btn avans-background  text-center float-right">Toevoegen</a>
+    <a asp-action="PatientFileForm" class="btn btn-danger avans-background  text-center float-right">Toevoegen</a>
 </div>
 @foreach (PatientFileViewModel patientFile in Model)
 {
@@ -17,7 +17,7 @@
                 <br />
                 DHCP Code: @patientFile.DiagnosticCode
             </p>
-            <a class="btn avans-background float-right m-2" asp-action="PatientFile" asp-route-id="@patientFile.Id">Bekijken</a>
+            <a class="btn btn-danger avans-background float-right m-2" asp-action="PatientFile" asp-route-id="@patientFile.Id">Bekijken</a>
         </div>
     </div>
 }

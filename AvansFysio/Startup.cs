@@ -37,6 +37,7 @@ namespace AvansFysio
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IRemarkRepository, RemarkRepository>();
             services.AddScoped<IClaimRepository, ClaimRepository>();
+            services.AddScoped<IVektisRepository, VektisAPIRepository>();
             services.AddControllersWithViews();
         }
 

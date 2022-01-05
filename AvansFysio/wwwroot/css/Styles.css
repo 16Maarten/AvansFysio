@@ -29,6 +29,10 @@
     color: white;
 }
 
+    .avans-background:hover {
+    color:white;
+    }
+
 body {
     font-family:Mukta;
     background: url('/Images/achtergrond.png');

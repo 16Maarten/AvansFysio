@@ -19,7 +19,7 @@ namespace Domain
         [Key]
         public int PatientNumber { get; set; }
 
-        public byte[] Img { get; set; }
+        public string Img { get; set; }
         [Required]
         public DateTime Birthday { get; set; }
         [Required]

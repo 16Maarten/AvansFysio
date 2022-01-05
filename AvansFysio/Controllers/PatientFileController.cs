@@ -20,14 +20,16 @@ namespace AvansFysio.Controllers
         private readonly IStudentRepository _studentRepository;
         private readonly IPhysiotherapistRepository _physiotherapistRepository;
         private readonly IPatientFileRepository _patientFileRepository;
+        private readonly IVektisRepository _vektisRepository;
 
 
-        public PatientFileController(IPatientRepository patientRepository, IPhysiotherapistRepository physiotherapistRepository, IStudentRepository studentRepository, IPatientFileRepository patientFileRepository)
+        public PatientFileController(IPatientRepository patientRepository, IPhysiotherapistRepository physiotherapistRepository, IStudentRepository studentRepository, IPatientFileRepository patientFileRepository, IVektisRepository vektisRepository)
         {
             _patientRepository = patientRepository;
             _physiotherapistRepository = physiotherapistRepository;
             _studentRepository = studentRepository;
             _patientFileRepository = patientFileRepository;
+            _vektisRepository = vektisRepository;
         }
 
         [HttpGet]
@@ -59,6 +61,9 @@ namespace AvansFysio.Controllers
 
             var physiotherapists = _physiotherapistRepository.GetAllPhysiotherapists().Prepend(new Physiotherapist { Id = -1, Name = "Select a physiotherapist" });
             ViewBag.Physiotherapists = new SelectList(physiotherapists, "Id", "Name");
+
+            var diagnoses = _vektisRepository.GetAllDiagnoses().Prepend(new VektisDiagnosis {Code = -1});
+            ViewBag.Diagnoses = new SelectList(diagnoses, "Code", "Code");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -84,13 +89,24 @@ namespace AvansFysio.Controllers
                 ModelState.AddModelError(nameof(patientFile.PhysiotherapistId),
                     "Er moet een fysiotherapeut opgegeven worden!");
             }
+            if (patientFile.DiagnosticCode == -1)
+            {
+                ModelState.AddModelError(nameof(patientFile.DiagnosticCode),
+                    "Er moet een DHCP Code opgegeven worden!");
+            }
 
             if (ModelState.IsValid)
             {
+                string DiagnoseDescription ="";
                 if (patientFile.PatientId != -1)
                 {
                     var selectedPatient = _patientRepository.GetWhereIdPatient(patientFile.PatientId);
                     patientFile.Patient = selectedPatient;
+                }
+                if (patientFile.PatientId != -1)
+                {
+                    var selectedDiagnose = _vektisRepository.GetDiagnosisByCode(patientFile.DiagnosticCode);
+                    DiagnoseDescription = selectedDiagnose.BodyLocation+"  "+ selectedDiagnose.Pathology;
                 }
                 if (patientFile.StudentId != -1)
                 {
@@ -108,7 +124,7 @@ namespace AvansFysio.Controllers
                     Age = CalculateAge(patientFile.Patient),
                     Description = patientFile.Description,
                     DiagnosticCode = patientFile.DiagnosticCode,
-                    DescriptionDiagnosticCode = "ballen",
+                    DescriptionDiagnosticCode = DiagnoseDescription,
                     IsStudent = patientFile.IsStudent,
                     Physiotherapist = patientFile.Physiotherapist,
                     IntakeDate = patientFile.IntakeDate
@@ -118,7 +134,7 @@ namespace AvansFysio.Controllers
                     NumberOfTreatmentsPerWeek = patientFile.NumberOfTreatmentsPerWeek,
                     DurationTreatment = patientFile.DurationTreatment,
                     DiagnosticCode = patientFile.DiagnosticCode,
-                    DescriptionDiagnosticCode = "ballen",
+                    DescriptionDiagnosticCode = DiagnoseDescription,
                 };
                 if (patientFile.Student != null)
                 {
@@ -142,6 +158,12 @@ namespace AvansFysio.Controllers
             if (patient.Birthday > DateTime.Now.AddYears(-age))age--;
 
             return age;
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _patientFileRepository.RemovePatientFile(_patientFileRepository.GetWhereIdPatientFile(id));
+            return RedirectToAction("Index", "PatientFile");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

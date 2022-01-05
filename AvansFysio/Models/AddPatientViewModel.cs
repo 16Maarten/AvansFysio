@@ -19,10 +19,11 @@ namespace AvansFysio.Models
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Vul je studentNummer/personeelnummer in")]
         public int IdentificationNumber { get; set; }
-        public Byte[] Img { get; set; }
+        [Required(ErrorMessage = "Upload een afbeelding")]
+        public IFormFile Img { get; set; }
 
-        [Required(ErrorMessage = "Vul je geboortedatum in")]
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Vul je geboortedatum in")]
         [MinimumAge(16, ErrorMessage = "Je moet minimaal 16 zijn")]
         public DateTime Birthday { get; set; }
         [Required(ErrorMessage = "Vul je geslacht")]

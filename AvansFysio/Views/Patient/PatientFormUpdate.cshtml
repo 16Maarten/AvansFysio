@@ -1,6 +1,9 @@
 ﻿@model AvansFysio.Models.UpdatePatientViewModel
-
+@{
+    ViewData["Title"] = "Patient aanpassen";
+}
 <div>
+    <h1 class="avans text-center font-weight-bold">Patiënt aanpassen</h1>
     <div>
         <form method="post">
             <div class="form-group">
@@ -19,8 +22,13 @@
                 <span asp-validation-for="Birthday" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <button type="submit" class="btn btn-primary col-sm-4 text-center">Aanpassen</button>
+                <button type="submit" class="btn btn-block avans-background">Aanpassen</button>
             </div>
         </form>
     </div>
+    <br />
+    <div>
+        <a class="btn avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Terug</a>
+    </div>
 </div>
+

@@ -7,8 +7,8 @@
     <h1 class="avans font-weight-bold float-left">Behandeling</h1>
     @if (@Model.CreationDate.Date == DateTime.Now.Date)
     {
-        <a asp-action="TreatmentFormUpdate" asp-route-id="@Model.Id" class="btn avans-background  text-center float-right mx-1">Aanpassen</a>
-        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn avans-background  text-center float-right mx-1">Verwijderen</a>
+        <a asp-action="TreatmentFormUpdate" asp-route-id="@Model.Id" class="btn btn-danger avans-background  text-center float-right mx-1">Aanpassen</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger avans-background  text-center float-right mx-1">Verwijderen</a>
     }
 </div>
 <div>
@@ -30,5 +30,5 @@
     </ul>
 </div>
 <div>
-    <a class="btn avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Back</a>
+    <a class="btn btn-danger avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Terug</a>
 </div>

@@ -4,19 +4,22 @@
 }
 <div class="my-4">
     <h1 class="avans font-weight-bold float-left">Patient</h1>
-    <a asp-action="PatientFormUpdate" asp-route-id="@Model.PatientNumber" class="btn avans-background  text-center float-right">Aanpassen</a>
+    <a asp-action="PatientFormUpdate" asp-route-id="@Model.PatientNumber" class="btn btn-danger avans-background  text-center float-right">Aanpassen</a>
 </div>
 <div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">Naam: @Model.Name</li>
-        <li class="list-group-item">Email: @Model.Email</li>
-        <li class="list-group-item">Geboortedatum: @Model.Birthday.ToShortDateString()</li>
-        <li class="list-group-item">Student/personeelsnummer: @Model.IdentificationNumber</li>
-        <li class="list-group-item">Telefoonnummer: @Model.PhoneNumber</li>
-        <li class="list-group-item">Gender: @Model.Gender</li>
-        <li class="list-group-item">Img: @Model.Img</li>
-    </ul>
-</div>
-<div>
-    <a class="btn avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Back</a>
-</div>
+        <ul class="list-group list-group-flush col-7 float-left">
+            <li class="list-group-item">Naam: @Model.Name</li>
+            <li class="list-group-item">Email: @Model.Email</li>
+            <li class="list-group-item">Geboortedatum: @Model.Birthday.ToShortDateString()</li>
+            <li class="list-group-item">Student/personeelsnummer: @Model.IdentificationNumber</li>
+            <li class="list-group-item">Telefoonnummer: @Model.PhoneNumber</li>
+            <li class="list-group-item">Gender: @Model.Gender</li>
+        </ul>
+        <div class="col-4 float-right">
+            <img src="data:image/png;base64,@Model.Img" class="rounded border border-dark border-3 img-fluid" alt="Profielfoto"/>
+        </div>
+    </div>
+    <br/>
+    <div>
+        <a class="btn btn-danger avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Terug</a>
+    </div>

@@ -1,12 +1,18 @@
 ﻿using AvansFysio.Models;
 using DomainServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using Domain;
 
 namespace AvansFysio.Controllers
 {
@@ -33,8 +39,10 @@ namespace AvansFysio.Controllers
 
     public IActionResult Patient(int id)
     {
-                return View(_patientRepository.GetWhereIdPatient(id).ToViewModel());
+            var patient = _patientRepository.GetWhereIdPatient(id).ToViewModel();
+            return View(patient);
     }
+
         [HttpGet]
         public IActionResult PatientFormUpdate(int id)
         {
@@ -77,22 +85,27 @@ namespace AvansFysio.Controllers
             ModelState.AddModelError(nameof(patient.Email),
                 "Deze email is al in gebruik");
         }
-        if (ModelState.IsValid)
+            if (patient.Img != null)
+            {
+                if (patient.Img.Length > 2000000)
+                {
+                    ModelState.AddModelError(nameof(patient.Img), "Afbeelding is groter dan 2MB");
+                    return View(patient);
+                }
+            }
+            if (ModelState.IsValid)
         {
-            /* string stringFileName = UploadFile(patient);
-             var newPatient = new Patient
-             {
-                 Name = patient.Name,
-                 Email = patient.Email,
-                 PhoneNumber = patient.PhoneNumber,
-                 IdentificationNumber = patient.IdentificationNumber,
-                 Img = stringFileName,
-                 Birthday = patient.Birthday,
-                 Gender = patient.Gender,
-                 Student = patient.Student
-             };
-            */
-            await _patientRepository.AddPatient(patient.ToDomain());
+                var createPatient = new Patient
+                {
+                    Name = patient.Name,
+                    Email = patient.Email,
+                    PhoneNumber = patient.PhoneNumber,
+                    IdentificationNumber = patient.IdentificationNumber,
+                    Birthday = patient.Birthday,
+                    Gender = patient.Gender,
+                    Img = imgToBase64(patient.Img)
+                };
+                await _patientRepository.AddPatient(createPatient);
             return RedirectToAction("Index");
         }
         else
@@ -100,14 +113,25 @@ namespace AvansFysio.Controllers
             return View(patient);
         }
     }
-    /*private string UploadFile(AddPatientViewModel patient) {
-        string filename = null;
-        if (patient.Img != null) { 
-            string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath,)
+
+        public static string imgToBase64(IFormFile? img)
+        {
+            if (img != null && img.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    var image = Image.Load(img.OpenReadStream());
+                    image.SaveAsJpeg(ms);
+                    var fileBytes = ms.ToArray();
+                    return Convert.ToBase64String(fileBytes);
+                }
+            }
+
+            return null;
         }
-    }
-    */
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

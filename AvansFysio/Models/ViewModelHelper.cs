@@ -1,4 +1,5 @@
 ﻿using Domain;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,6 @@ namespace AvansFysio.Models
 {
     public static class ViewModelHelper
     {
-        public static Patient ToDomain(this AddPatientViewModel patient)
-        {
-            return new Patient
-            {
-                Name = patient.Name,
-                Email = patient.Email,
-                PhoneNumber = patient.PhoneNumber,
-                IdentificationNumber = patient.IdentificationNumber,
-                Birthday = patient.Birthday,
-                Gender = patient.Gender
-            };
-        }
 
         public static List<PatientsViewModel> ToViewModel(this IEnumerable<Patient> patients)
         {
