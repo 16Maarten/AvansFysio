@@ -28,7 +28,7 @@ namespace AvansFysioWebService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DbVektisContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddDbContext<DbVektisContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Vektis")));
 
             services.AddScoped<IVektisRepository, VektisRepository>();
             services.AddScoped<Query>();
@@ -46,12 +46,11 @@ namespace AvansFysioWebService
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AvansFysioWebService v1"));
             }
-
             app.UseHttpsRedirection();
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AvansFysioWebService v1"));
 
             app.UseRouting();
 
