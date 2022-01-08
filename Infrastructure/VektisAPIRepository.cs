@@ -13,8 +13,8 @@ namespace Infrastructure
     public class VektisAPIRepository : IVektisRepository
     {
         HttpClient client = new HttpClient();
-        private readonly string UrlDiagnoses = "https://vektis.azurewebsites.net/api/diagnoses/";
-        private readonly string UrlTreatments = "https://vektis.azurewebsites.net/api/treatments/";
+        private readonly string UrlDiagnoses = "https://fysiotherapie2021api.azurewebsites.net/api/diagnoses/";
+        private readonly string UrlTreatments = "https://fysiotherapie2021api.azurewebsites.net/api/treatments/";
         public IEnumerable<VektisDiagnosis> GetAllDiagnoses()
         {
             HttpResponseMessage response = client.GetAsync(UrlDiagnoses).Result;
