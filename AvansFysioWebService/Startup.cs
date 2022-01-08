@@ -60,6 +60,7 @@ namespace AvansFysioWebService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL("/api/graphql");
             });
         }
     }

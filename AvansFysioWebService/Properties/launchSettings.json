@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebServiceAPI": {
+    "AvansFysioWebService": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
