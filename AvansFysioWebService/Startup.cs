@@ -46,8 +46,8 @@ namespace AvansFysioWebService
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
             }
+            app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AvansFysioWebService v1"));
