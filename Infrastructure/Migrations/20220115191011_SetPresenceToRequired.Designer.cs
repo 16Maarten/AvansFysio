@@ -4,53 +4,22 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DbFysioContext))]
-    partial class DbFysioContextModelSnapshot : ModelSnapshot
+    [Migration("20220115191011_SetPresenceToRequired")]
+    partial class SetPresenceToRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Domain.Appointment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PatientNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PhysiotherapistId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SessionLength")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PatientNumber");
-
-                    b.HasIndex("PhysiotherapistId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Appointments");
-                });
 
             modelBuilder.Entity("Domain.Patient", b =>
                 {
@@ -177,17 +146,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("PresenceId");
 
                     b.ToTable("Physiotherapists");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BIGNumber = 123456789,
-                            Email = "Peter@fysio-avans.nl",
-                            IdentificationNumber = 5165842,
-                            Name = "Peter",
-                            PhoneNumber = "061234567"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Presence", b =>
@@ -197,55 +155,39 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<TimeSpan>("EndFriday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndFriday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("EndMonday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndMonday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("EndThursday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndTeusday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("EndTuesday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndThursday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("EndWednesday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndWednesday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("StartFriday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartFriday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("StartMonday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartMonday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("StartThursday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartTeusday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("StartTuesday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartThursday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("StartWednesday")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartWednesday")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Presences");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            EndFriday = new TimeSpan(0, 18, 0, 0, 0),
-                            EndMonday = new TimeSpan(0, 18, 0, 0, 0),
-                            EndThursday = new TimeSpan(0, 18, 0, 0, 0),
-                            EndTuesday = new TimeSpan(0, 18, 0, 0, 0),
-                            EndWednesday = new TimeSpan(0, 18, 0, 0, 0),
-                            StartFriday = new TimeSpan(0, 8, 0, 0, 0),
-                            StartMonday = new TimeSpan(0, 8, 0, 0, 0),
-                            StartThursday = new TimeSpan(0, 8, 0, 0, 0),
-                            StartTuesday = new TimeSpan(0, 8, 0, 0, 0),
-                            StartWednesday = new TimeSpan(0, 8, 0, 0, 0)
-                        });
                 });
 
             modelBuilder.Entity("Domain.Remark", b =>
@@ -386,27 +328,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TreatmentPlan");
-                });
-
-            modelBuilder.Entity("Domain.Appointment", b =>
-                {
-                    b.HasOne("Domain.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientNumber");
-
-                    b.HasOne("Domain.Physiotherapist", "Physiotherapist")
-                        .WithMany()
-                        .HasForeignKey("PhysiotherapistId");
-
-                    b.HasOne("Domain.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Physiotherapist");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Domain.PatientFile", b =>

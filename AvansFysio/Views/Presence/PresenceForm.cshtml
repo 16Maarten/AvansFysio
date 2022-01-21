@@ -1,0 +1,61 @@
+﻿@model UpdatePresenceViewModel
+@{
+    ViewData["Title"] = "Aanwezigheid";
+}
+<h1 class="avans font-weight-bold"> Aanwezigheid</h1>
+<form method="post">
+    <div class="card text-center mt-2">
+        <h4 class="mt-2">Maandag</h4>
+        <div class="form-group row justify-content-center">
+            <label class="col-2 mt-2" asp-for="StartMonday">Start:</label>
+            <input class="form-control col-3" asp-for="StartMonday" value="@Model.StartMonday" />
+            <label class="col-2 mt-2" asp-for="EndMonday">Eindigt:</label>
+            <input class="form-control col-3" asp-for="EndMonday" value="@Model.EndMonday" />
+        </div>
+        <span asp-validation-for="StartMonday" class="text-danger"></span>
+    </div>
+    <div class="card text-center mt-2">
+        <h4 class="mt-2">Dinsadg</h4>
+        <div class="form-group row justify-content-center">
+            <label class="col-2 mt-2" asp-for="StartTuesday">Start:</label>
+            <input class="form-control col-3" asp-for="StartTuesday" value="@Model.StartTuesday" />
+            <label class="col-2 mt-2" asp-for="EndTuesday">Eindigt:</label>
+            <input class="form-control col-3" asp-for="EndTuesday" value="@Model.EndTuesday" />
+        </div>
+        <span asp-validation-for="StartTuesday" class="text-danger"></span>
+    </div>
+    <div class="card text-center mt-2">
+        <h4 class="mt-2">Woensdag</h4>
+        <div class="form-group row justify-content-center">
+            <label class="col-2 mt-2" asp-for="StartWednesday">Start:</label>
+            <input class="form-control col-3" asp-for="StartWednesday" value="@Model.StartWednesday" />
+            <label class="col-2 mt-2" asp-for="EndWednesday">Eindigt:</label>
+            <input class="form-control col-3" asp-for="EndWednesday" value="@Model.EndWednesday" />
+        </div>
+        <span asp-validation-for="StartWednesday" class="text-danger"></span>
+    </div>
+    <div class="card text-center mt-2">
+        <h4 class="mt-2">Donderdag</h4>
+        <div class="form-group row justify-content-center">
+            <label class="col-2 mt-2" asp-for="StartThursday">Start:</label>
+            <input class="form-control col-3" asp-for="StartThursday" value="@Model.StartThursday" />
+            <label class="col-2 mt-2" asp-for="EndThursday">Eindigt:</label>
+            <input class="form-control col-3" asp-for="EndThursday" value="@Model.EndThursday" />
+        </div>
+        <span asp-validation-for="StartThursday" class="text-danger"></span>
+    </div>
+    <div class="card text-center mt-2">
+        <h4 class="mt-2">Vrijdag</h4>
+        <div class="form-group row justify-content-center">
+            <label class="col-2 mt-2" asp-for="StartFriday">Start:</label>
+            <input class="form-control col-3" asp-for="StartFriday" value="@Model.StartFriday" />
+            <label class="col-2 mt-2" asp-for="EndFriday">Eindigt:</label>
+            <input class="form-control col-3" asp-for="EndFriday" value="@Model.EndFriday" />
+        </div>
+        <span asp-validation-for="StartFriday" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-danger btn-block avans-background">Aanpassen</button>
+</form>
+<div class="mt-2">
+    <a class="btn btn-danger avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Terug</a>
+</div>

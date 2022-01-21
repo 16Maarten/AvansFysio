@@ -1,0 +1,27 @@
+﻿@model Domain.Presence
+@{
+    ViewData["Title"] = "Aanwezigheid";
+}
+<div class="my-4">
+    <h1 class="avans font-weight-bold float-left">Aanwezigheid</h1>
+    <a asp-action="PresenceForm" class="btn btn-danger avans-background  text-center float-right">Aanpassen</a>
+</div>
+<div class="card text-center mt-2">
+    <h4 class="mt-2"> Maandag: @Model.StartMonday.ToString() - @Model.EndMonday.ToString()</h4>
+</div>
+<div class="card text-center mt-2">
+    <h4 class="mt-2"> Dinsdag: @Model.StartTuesday.ToString() - @Model.EndTuesday.ToString()</h4>
+</div>
+<div class="card text-center mt-2">
+    <h4 class="mt-2"> Woensdag: @Model.StartWednesday.ToString() - @Model.EndWednesday.ToString()</h4>
+</div>
+<div class="card text-center mt-2">
+    <h4 class="mt-2"> Donderdag: @Model.StartThursday.ToString() - @Model.EndThursday.ToString()</h4>
+</div>
+<div class="card text-center mt-2">
+    <h4 class="mt-2"> Vrijdag: @Model.StartFriday.ToString() - @Model.EndFriday.ToString()</h4>
+</div>
+<div class="mt-2">
+    <a class="btn btn-danger avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Terug</a>
+</div>
+

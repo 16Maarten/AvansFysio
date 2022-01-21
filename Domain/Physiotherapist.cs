@@ -19,5 +19,16 @@ namespace Domain
         public int IdentificationNumber { get; set; }
         [Required]
         public int BIGNumber { get; set; }
+        public Presence Presence { get; set; }
+
+        public Physiotherapist(int Id, string Name, string Email, string PhoneNumber, int IdentificationNumber, int BIGNumber)
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.Email = Email;
+            this.PhoneNumber = PhoneNumber;
+            this.IdentificationNumber = IdentificationNumber;
+            this.BIGNumber = BIGNumber;
+        }
     }
 }

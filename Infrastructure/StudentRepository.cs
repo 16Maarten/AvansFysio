@@ -1,5 +1,6 @@
 ﻿using Domain;
 using DomainServices;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Infrastructure
         }
         public IEnumerable<Student> GetAllStudents()
         {
-            return _context.Students.ToList();
+            return _context.Students.Include(b => b.Presence).ToList();
         }
 
         public Student GetWhereIdStudent(int id)

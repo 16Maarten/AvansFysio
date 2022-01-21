@@ -17,5 +17,6 @@ namespace Domain
         public string PhoneNumber { get; set; }
         [Required]
         public int IdentificationNumber { get; set; }
+        public Presence Presence { get; set;}
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain;
 using DomainServices;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Infrastructure
 
         public IEnumerable<Physiotherapist> GetAllPhysiotherapists()
         {
-            return _context.Physiotherapists.ToList();
+            return _context.Physiotherapists.Include(b => b.Presence).ToList();
         }
 
         public IQueryable GetPhysiotherapists()

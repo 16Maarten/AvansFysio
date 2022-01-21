@@ -38,6 +38,8 @@ namespace AvansFysio
             services.AddScoped<IRemarkRepository, RemarkRepository>();
             services.AddScoped<IClaimRepository, ClaimRepository>();
             services.AddScoped<IVektisRepository, VektisAPIRepository>();
+            services.AddScoped<IPresenceRepository, PresenceRepository>();
+            services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddControllersWithViews();
         }
 

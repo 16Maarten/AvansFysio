@@ -36,7 +36,6 @@ namespace AvansFysio.Controllers
         public IActionResult PatientFileForm()
         {
             var model = new AddPatientFileViewModel();
-
             PrefillSelectOptions();
             return View(model);
         }
@@ -59,7 +58,7 @@ namespace AvansFysio.Controllers
             var students = _studentRepository.GetAllStudents().Prepend(new Student { Id = -1, Name = "Select a student" });
             ViewBag.Students = new SelectList(students, "Id", "Name");
 
-            var physiotherapists = _physiotherapistRepository.GetAllPhysiotherapists().Prepend(new Physiotherapist { Id = -1, Name = "Select a physiotherapist" });
+            var physiotherapists = _physiotherapistRepository.GetAllPhysiotherapists();//.Prepend(new Physiotherapist { Id = -1, Name = "Select a physiotherapist" });
             ViewBag.Physiotherapists = new SelectList(physiotherapists, "Id", "Name");
 
             var diagnoses = _vektisRepository.GetAllDiagnoses().Prepend(new VektisDiagnosis {Code = -1});
