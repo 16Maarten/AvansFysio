@@ -4,14 +4,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DbFysioContext))]
-    partial class DbFysioContextModelSnapshot : ModelSnapshot
+    [Migration("20220123141927_Seeding")]
+    partial class Seeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,15 +34,22 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("PatientNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("PersonEmail")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("PhysiotherapistId")
+                        .HasColumnType("int");
 
                     b.Property<int>("SessionLength")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PatientNumber");
+
+                    b.HasIndex("PhysiotherapistId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Appointments");
                 });
@@ -411,7 +420,19 @@ namespace Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("PatientNumber");
 
+                    b.HasOne("Domain.Physiotherapist", "Physiotherapist")
+                        .WithMany()
+                        .HasForeignKey("PhysiotherapistId");
+
+                    b.HasOne("Domain.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
                     b.Navigation("Patient");
+
+                    b.Navigation("Physiotherapist");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Domain.PatientFile", b =>

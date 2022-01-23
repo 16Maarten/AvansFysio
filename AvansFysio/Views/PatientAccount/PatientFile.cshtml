@@ -4,7 +4,10 @@
 }
 @if (Model != null)
 {
-    <h1 class="avans font-weight-bold">Patient dossier van @Model.Patient.Name</h1>
+    <div class="my-4">
+        <h1 class="avans font-weight-bold float-left">Patient dossier van @Model.Patient.Name</h1>
+        <a asp-action="Appointment" class="btn btn-danger avans-background  text-center float-right mx-1">Afspraken</a>
+    </div>
     <div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Patient: @Model.Patient.Name</li>

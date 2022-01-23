@@ -90,13 +90,13 @@ namespace AvansFysio.Controllers
             {
                 ModelState.AddModelError(nameof(patientFile.DiagnosticCode),"Er moet een DHCP Code opgegeven worden!");
             }
-            if (patientFile.DischargeDate > patientFile.IntakeDate)
+            if (patientFile.DischargeDate < patientFile.IntakeDate)
             {
-                ModelState.AddModelError(nameof(patientFile.DiagnosticCode),"De ontslag datum kan niet voor de intakedatum liggen!");
+                ModelState.AddModelError(nameof(patientFile.DischargeDate),"De ontslag datum kan niet voor de intakedatum liggen!");
             }
-            if (patientFile.IntakeDate < DateTime.Now)
+            if (patientFile.IntakeDate < DateTime.Now.Date)
             {
-                ModelState.AddModelError(nameof(patientFile.DiagnosticCode), "De intakedatum kan niet in het evrleden liggen!");
+                ModelState.AddModelError(nameof(patientFile.IntakeDate), "De intakedatum kan niet in het verleden liggen!");
             }
             if (ModelState.IsValid)
             {

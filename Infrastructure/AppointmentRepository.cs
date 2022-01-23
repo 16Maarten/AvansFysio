@@ -43,7 +43,7 @@ namespace Infrastructure
 
         IEnumerable<Appointment> IAppointmentRepository.GetAllAppointments()
         {
-            return _context.Appointments.Include(b => b.Student).Include(b => b.Physiotherapist).Include(b => b.Patient).ToList();
+            return _context.Appointments.Include(b => b.Patient).ToList();
         }
     }
 }

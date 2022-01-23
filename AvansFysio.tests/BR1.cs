@@ -66,7 +66,7 @@ namespace AvansFysio.tests
             };
         physiotherapistRepositoryMock.Setup(physiotherapistRepository => physiotherapistRepository.GetAllPhysiotherapists()).Returns(new[] { physio });
             
-        appointmentRepositoryMock.Setup(appointmentRepository => appointmentRepository.GetAllAppointments()).Returns(new[]{ new Appointment { Date = new DateTime(2023, 1, 27, 11, 0, 0), Patient = patient, Physiotherapist = physio }, new Appointment { Date = new DateTime(2023, 1, 26, 11, 0, 0), Patient = patient, Physiotherapist = physio } });
+        appointmentRepositoryMock.Setup(appointmentRepository => appointmentRepository.GetAllAppointments()).Returns(new[]{ new Appointment { Date = new DateTime(2023, 1, 27, 11, 0, 0), Patient = patient, PersonEmail = physio.Email }, new Appointment { Date = new DateTime(2023, 1, 26, 11, 0, 0), Patient = patient, PersonEmail = physio.Email } });
 
             // Act
             var result = sut.AppointmentForm(appointment) as ViewResult;
@@ -127,7 +127,7 @@ namespace AvansFysio.tests
             };
             physiotherapistRepositoryMock.Setup(physiotherapistRepository => physiotherapistRepository.GetAllPhysiotherapists()).Returns(new[] { physio });
 
-            appointmentRepositoryMock.Setup(appointmentRepository => appointmentRepository.GetAllAppointments()).Returns(new[] { new Appointment { Date = new DateTime(2023, 1, 17, 11, 0, 0), Patient = patient, Physiotherapist = physio }, new Appointment { Date = new DateTime(2023, 1, 16, 11, 0, 0), Patient = patient, Physiotherapist = physio } });
+            appointmentRepositoryMock.Setup(appointmentRepository => appointmentRepository.GetAllAppointments()).Returns(new[] { new Appointment { Date = new DateTime(2023, 1, 17, 11, 0, 0), Patient = patient, PersonEmail = physio.Email }, new Appointment { Date = new DateTime(2023, 1, 16, 11, 0, 0), Patient = patient, PersonEmail = physio.Email } });
 
             // Act
             var result = sut.AppointmentForm(appointment);

@@ -59,12 +59,7 @@ namespace AvansFysio.Controllers
                 DateTime endAppointmentDate = appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment);
                 TimeSpan endAppointment = new TimeSpan(endAppointmentDate.Hour, endAppointmentDate.Minute, 0);
                 int amountOfAppointments = _appointmentRepository.GetAllAppointments().Where(p => p.Patient.PatientNumber == appointment.PatientId && p.Date >= appointment.Date && p.Date < appointment.Date.AddDays(7)).Count();
-                int amountofAppointmentsPhysiotherapist;
-                if (physiotherapist != null) {
-                    amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.Physiotherapist == physiotherapist && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
-                } else {
-                    amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.Student == student && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
-                }
+                int amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.PersonEmail == personEmail && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
                 if (appointment.Date < DateTime.Now)
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Je kunt geen afspraak in het verleden plannen!");
@@ -137,8 +132,7 @@ namespace AvansFysio.Controllers
                 var newAppointment = new Appointment
                 {
                     Date = appointment.Date,
-                    Physiotherapist = physiotherapist,
-                    Student = student,
+                    PersonEmail = personEmail,
                     Patient = patient,
                     SessionLength = patientfile.TreatmentPlan.DurationTreatment
                 };
@@ -180,15 +174,7 @@ namespace AvansFysio.Controllers
                 DateTime endAppointmentDate = appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment);
                 TimeSpan endAppointment = new TimeSpan(endAppointmentDate.Hour, endAppointmentDate.Minute, 0);
                 int amountOfAppointments = _appointmentRepository.GetAllAppointments().Where(p => p.Patient.PatientNumber == appointment.PatientId && p.Date >= appointment.Date && p.Date < appointment.Date.AddDays(7)).Count();
-                int amountofAppointmentsPhysiotherapist;
-                if (physiotherapist != null)
-                {
-                    amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.Physiotherapist == physiotherapist && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
-                }
-                else
-                {
-                    amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.Student == student && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
-                }
+                int amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.PersonEmail == personEmail && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
                 if (appointment.Date < DateTime.Now)
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Je kunt geen afspraak in het verleden plannen!");
@@ -289,7 +275,7 @@ namespace AvansFysio.Controllers
         private IEnumerable<Appointment> GetAppointments()
         {
             string personEmail = _signInManager.Context.User.Identity.Name;
-            IEnumerable<Appointment> Appointments = _appointmentRepository.GetAllAppointments().Where(p => (p.Physiotherapist.Email.Equals(personEmail) ||p.Student.Email.Equals(personEmail))&& p.Date >= DateTime.Now && p.Date <= DateTime.Now.AddDays(7)).OrderBy(p => p.Date);
+            IEnumerable<Appointment> Appointments = _appointmentRepository.GetAllAppointments().Where(p => p.PersonEmail.Equals(personEmail) && p.Date >= DateTime.Now && p.Date <= DateTime.Now.AddDays(7)).OrderBy(p => p.Date);
             return Appointments;
         }
     }

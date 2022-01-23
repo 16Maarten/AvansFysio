@@ -45,7 +45,13 @@ namespace AvansFysio.Controllers
         [HttpGet]
         public IActionResult PatientFormUpdate(int id)
         {
-            var model = new UpdatePatientViewModel();
+            Patient patient = _patientRepository.GetWhereIdPatient(id);
+            var model = new UpdatePatientViewModel()
+            {
+                Birthday = patient.Birthday,
+                Name = patient.Name,
+                PhoneNumber = patient.PhoneNumber
+            };
             model.PatientId = id;
             return View(model);
         }

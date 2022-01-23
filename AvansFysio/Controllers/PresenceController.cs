@@ -105,9 +105,11 @@ namespace AvansFysio.Controllers
 
         private Presence GetPresence() { 
             string personEmail = _signInManager.Context.User.Identity.Name;
-
-            var presence = _physiotherapistRepository.GetAllPhysiotherapists().Where(p => p.Email.Equals(personEmail)).First().Presence;
-            if (presence == null) {
+            Presence presence = null;
+            Physiotherapist physio = _physiotherapistRepository.GetWhereEmailPhysiotherapist(personEmail);
+            if (physio != null) {
+                presence = physio.Presence;
+            }else{
                 presence = _studentRepository.GetAllStudents().Where(p => p.Email.Equals(personEmail)).First().Presence;
             }
             return presence;

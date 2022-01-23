@@ -16,8 +16,6 @@ namespace Domain
         public int SessionLength { get; set; }
         [Required]
         public Patient Patient { get; set; }
-
-        public Physiotherapist Physiotherapist { get; set; }
-        public Student Student { get; set; }
+        public string PersonEmail { get; set; }
     }
 }

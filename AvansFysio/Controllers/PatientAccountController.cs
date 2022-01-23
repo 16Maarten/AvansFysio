@@ -18,19 +18,19 @@ namespace AvansFysio.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IPatientRepository _patientRepository;
         private readonly IPatientFileRepository _patientFileRepository;
-        private readonly IStudentRepository _studentFileRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly IPhysiotherapistRepository _physiotherapistRepository;
         private readonly IAppointmentRepository _appointmentRepository;
 
 
-        public PatientAccountController(SignInManager<IdentityUser> signInManager,IPatientRepository patientRepository, IPatientFileRepository patientFileRepository, IAppointmentRepository appointmentRepository, IPhysiotherapistRepository physiotherapistRepository, IStudentRepository studentFileRepository)
+        public PatientAccountController(SignInManager<IdentityUser> signInManager,IPatientRepository patientRepository, IPatientFileRepository patientFileRepository, IAppointmentRepository appointmentRepository, IPhysiotherapistRepository physiotherapistRepository, IStudentRepository studentRepository)
         {
             _signInManager = signInManager;
             _patientRepository = patientRepository;
             _patientFileRepository = patientFileRepository;
             _appointmentRepository = appointmentRepository;
             _physiotherapistRepository = physiotherapistRepository;
-            _studentFileRepository = studentFileRepository;
+            _studentRepository = studentRepository;
         }
         public IActionResult Patient()
         {
@@ -52,7 +52,11 @@ namespace AvansFysio.Controllers
         [HttpGet]
         public IActionResult PatientFormUpdate(int id)
         {
-            var model = new UpdatePatientAccountViewModel();
+            Patient patient = GetPatient();
+            var model = new UpdatePatientAccountViewModel()
+            {
+                PhoneNumber = patient.PhoneNumber
+            };
             model.PatientId = id;
             return View(model);
         }
@@ -70,7 +74,7 @@ namespace AvansFysio.Controllers
         }
 
         private Patient GetPatient() {
-            string patientEmail = _signInManager.Context.User.Identity.Name;
+            string patientEmail = User.Identity.Name;
             return _patientRepository.GetAllPatients().Where(p => p.Email.Equals(patientEmail)).First();
         }
 
@@ -103,20 +107,14 @@ namespace AvansFysio.Controllers
         {
             PatientFile patientfile = _patientFileRepository.GetAllPatientFiles().Where(p => p.Patient == GetPatient()).FirstOrDefault();
             Physiotherapist physiotherapist = _physiotherapistRepository.GetWhereIdPhysiotherapist(patientfile.Physiotherapist.Id);
-            Student student = _studentFileRepository.GetWhereIdStudent(patientfile.Student.Id);
+            string personEmail = physiotherapist.Email;
                 TimeSpan startAppointment = new TimeSpan(appointment.Date.Hour, appointment.Date.Minute, 0);
                 DateTime endAppointmentDate = appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment);
                 TimeSpan endAppointment = new TimeSpan(endAppointmentDate.Hour, endAppointmentDate.Minute, 0);
-                int amountOfAppointments = _appointmentRepository.GetAllAppointments().Where(p => p.Patient.PatientNumber == GetPatient().IdentificationNumber && p.Date >= appointment.Date && p.Date < appointment.Date.AddDays(7)).Count();
+                int amountOfAppointments = _appointmentRepository.GetAllAppointments().Where(p => p.Patient == GetPatient() && p.Date >= appointment.Date && p.Date < appointment.Date.AddDays(7)).Count();
                 int amountofAppointmentsPhysiotherapist;
-                if (physiotherapist != null)
-                {
-                    amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.Physiotherapist == physiotherapist && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
-                }
-                else
-                {
-                    amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.Student == student && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
-                }
+                amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.PersonEmail == personEmail && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
+
                 if (appointment.Date < DateTime.Now)
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Je kunt geen afspraak in het verleden plannen!");
@@ -125,8 +123,6 @@ namespace AvansFysio.Controllers
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Je kunt geen afspraak inplannen in het weekend!");
                 }
-            if (physiotherapist != null)
-            {
                 if (appointment.Date.DayOfWeek.ToString().Equals("Monday") && (startAppointment < physiotherapist.Presence.StartMonday || endAppointment > physiotherapist.Presence.EndMonday))
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Maandag!");
@@ -147,30 +143,6 @@ namespace AvansFysio.Controllers
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Vrijdag!");
                 }
-            }
-            else
-            {
-                if (appointment.Date.DayOfWeek.ToString().Equals("Monday") && startAppointment < student.Presence.StartMonday && endAppointment > student.Presence.EndMonday)
-                {
-                    ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Maandag!");
-                }
-                if (appointment.Date.DayOfWeek.ToString().Equals("Tuesday") && startAppointment < student.Presence.StartTuesday && endAppointment > student.Presence.EndTuesday)
-                {
-                    ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Dinsdag!");
-                }
-                if (appointment.Date.DayOfWeek.ToString().Equals("Wednesday") && startAppointment < student.Presence.StartWednesday && endAppointment > student.Presence.EndWednesday)
-                {
-                    ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Woensdag!");
-                }
-                if (appointment.Date.DayOfWeek.ToString().Equals("Thursday") && startAppointment < student.Presence.StartThursday && endAppointment > student.Presence.EndThursday)
-                {
-                    ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Donderdag!");
-                }
-                if (appointment.Date.DayOfWeek.ToString().Equals("Friday") && startAppointment < student.Presence.StartFriday && endAppointment > student.Presence.EndFriday)
-                {
-                    ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Vrijdag!");
-                }
-            }
                 if (amountOfAppointments + 1 > patientfile.TreatmentPlan.NumberOfTreatmentsPerWeek)
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Je kunt niet meer afspraken inplannen deze week voor deze patient!");
@@ -184,8 +156,7 @@ namespace AvansFysio.Controllers
                 var newAppointment = new Appointment
                 {
                     Date = appointment.Date,
-                    Physiotherapist = physiotherapist,
-                    Student = student,
+                    PersonEmail = personEmail,
                     Patient = GetPatient(),
                     SessionLength = patientfile.TreatmentPlan.DurationTreatment
                 };
@@ -216,20 +187,12 @@ namespace AvansFysio.Controllers
         {
             PatientFile patientfile = _patientFileRepository.GetAllPatientFiles().Where(p => p.Patient == GetPatient()).FirstOrDefault();
             Physiotherapist physiotherapist = _physiotherapistRepository.GetWhereIdPhysiotherapist(patientfile.Physiotherapist.Id);
-            Student student = _studentFileRepository.GetWhereIdStudent(patientfile.Student.Id);
+            string personEmail = physiotherapist.Email;
             TimeSpan startAppointment = new TimeSpan(appointment.Date.Hour, appointment.Date.Minute, 0);
                 DateTime endAppointmentDate = appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment);
                 TimeSpan endAppointment = new TimeSpan(endAppointmentDate.Hour, endAppointmentDate.Minute, 0);
-                int amountOfAppointments = _appointmentRepository.GetAllAppointments().Where(p => p.Patient.PatientNumber == GetPatient().IdentificationNumber && p.Date >= appointment.Date && p.Date < appointment.Date.AddDays(7)).Count();
-                int amountofAppointmentsPhysiotherapist;
-                if (physiotherapist != null)
-                {
-                    amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.Physiotherapist == physiotherapist && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
-                }
-                else
-                {
-                    amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.Student == student && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
-                }
+                int amountOfAppointments = _appointmentRepository.GetAllAppointments().Where(p => p.Patient == GetPatient() && p.Date >= appointment.Date && p.Date < appointment.Date.AddDays(7)).Count();
+                int amountofAppointmentsPhysiotherapist = _appointmentRepository.GetAllAppointments().Where(p => p.PersonEmail == personEmail && p.Date >= appointment.Date && p.Date <= appointment.Date.AddMinutes(patientfile.TreatmentPlan.DurationTreatment)).Count();
                 if (appointment.Date < DateTime.Now)
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Je kunt geen afspraak in het verleden plannen!");
@@ -238,8 +201,6 @@ namespace AvansFysio.Controllers
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Je kunt geen afspraak inplannen in het weekend!");
                 }
-                if (physiotherapist != null)
-                {
                     if (appointment.Date.DayOfWeek.ToString().Equals("Monday") && (startAppointment < physiotherapist.Presence.StartMonday || endAppointment > physiotherapist.Presence.EndMonday))
                     {
                         ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Maandag!");
@@ -260,30 +221,6 @@ namespace AvansFysio.Controllers
                     {
                         ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Vrijdag!");
                     }
-                }
-                else
-                {
-                    if (appointment.Date.DayOfWeek.ToString().Equals("Monday") && startAppointment < student.Presence.StartMonday && endAppointment > student.Presence.EndMonday)
-                    {
-                        ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Maandag!");
-                    }
-                    if (appointment.Date.DayOfWeek.ToString().Equals("Tuesday") && startAppointment < student.Presence.StartTuesday && endAppointment > student.Presence.EndTuesday)
-                    {
-                        ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Dinsdag!");
-                    }
-                    if (appointment.Date.DayOfWeek.ToString().Equals("Wednesday") && startAppointment < student.Presence.StartWednesday && endAppointment > student.Presence.EndWednesday)
-                    {
-                        ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Woensdag!");
-                    }
-                    if (appointment.Date.DayOfWeek.ToString().Equals("Thursday") && startAppointment < student.Presence.StartThursday && endAppointment > student.Presence.EndThursday)
-                    {
-                        ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Donderdag!");
-                    }
-                    if (appointment.Date.DayOfWeek.ToString().Equals("Friday") && startAppointment < student.Presence.StartFriday && endAppointment > student.Presence.EndFriday)
-                    {
-                        ModelState.AddModelError(nameof(appointment.Date), "Deze tijden worden er niet gewerkt op Vrijdag!");
-                    }
-                }
                 if (amountOfAppointments + 1 > patientfile.TreatmentPlan.NumberOfTreatmentsPerWeek)
                 {
                     ModelState.AddModelError(nameof(appointment.Date), "Je kunt niet meer afspraken inplannen deze week voor deze patient!");
