@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PatientsViewModel>
+﻿@model IEnumerable<Domain.Patient>
 @{
     ViewData["Title"] = "Patients";
 }
@@ -7,7 +7,7 @@
     <h2 class="avans font-weight-bold float-left">Patienten</h2>
     <a asp-action="FormPatient" class="btn btn-danger avans-background  text-center float-right">Toevoegen</a>
 </div>
-@foreach (PatientsViewModel patient in Model)
+@foreach (Domain.Patient patient in Model)
 {
 <div class="card m-1">
     <div class="card-body">

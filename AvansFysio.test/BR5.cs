@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace AvansFysio.test
+namespace AvansFysio.tests
 {
     public class BR5
     {
-        // BR_5.De leeftijd van een patiënt is >= 16. 
         [Theory]
         [InlineData(14, false)]
         [InlineData(15, false)]
@@ -19,7 +18,7 @@ namespace AvansFysio.test
         public void AddPatientAgeCheck(int age, bool shouldPass)
         {
             // Arrange
-            DateTime birthday = DateTime.Now.AddYears(-(age));
+            DateTime birthday = DateTime.Now.AddYears(-age);
             MinimumAge sut = new MinimumAge(16);
 
             //Act

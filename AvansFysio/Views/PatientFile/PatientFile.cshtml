@@ -1,4 +1,4 @@
-﻿@model PatientFileViewModel
+﻿@model Domain.PatientFile
 @{
     ViewData["Title"] = "Patient dossier";
 }
@@ -30,11 +30,11 @@
         <div class="dropdown-divider font-weight-bold"></div>
         <div class="my-4">
             <h2 class="avans font-weight-bold float-left">Behandelingen</h2>
-            @if (Model.IntakeDate < DateTime.Now && Model.DischargeDate > DateTime.Now) {<a asp-controller="Treatment" asp-action="TreatmentForm" asp-route-id="@Model.Id" class="btn btn-danger avans-background  text-center float-right">Toevoegen</a>}
+            @if (Model.IntakeDate <= DateTime.Now && Model.DischargeDate >= DateTime.Now) {<a asp-controller="Treatment" asp-action="TreatmentForm" asp-route-id="@Model.Id" class="btn btn-danger avans-background  text-center float-right">Toevoegen</a>}
         </div>
         <br>
         <br>
-        @foreach (TreatmentViewModel treatment in Model.Treatments.ToViewModel())
+        @foreach (Domain.Treatment treatment in Model.Treatments)
         {
             <div class="card m-2">
                 <div class="card-body">
@@ -55,7 +55,7 @@
         </div>
         <br>
         <br>
-        @foreach (RemarkViewModel remark in Model.Remarks.ToViewModel())
+        @foreach (Domain.Remark remark in Model.Remarks)
         {
             <div class="card m-2">
                 <div class="card-header">

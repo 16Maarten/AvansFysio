@@ -34,7 +34,12 @@ namespace Infrastructure
 
         public Physiotherapist GetWhereIdPhysiotherapist(int id)
         {
-            return _context.Physiotherapists.Find(id);
+            return _context.Physiotherapists.Include(b => b.Presence).FirstOrDefault(entity => entity.Id == id);
+        }
+
+        public Physiotherapist GetWhereEmailPhysiotherapist(string email)
+        {
+            return _context.Physiotherapists.Include(b => b.Presence).FirstOrDefault(entity => entity.Email == email);
         }
     }
 }

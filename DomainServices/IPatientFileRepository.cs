@@ -12,6 +12,7 @@ namespace DomainServices
         Task AddPatientFile(PatientFile patientFile);
         Task UpdatePatientFile(PatientFile patientFile);
         Task RemovePatientFile(PatientFile patientFile);
+        public PatientFile GetWherePatientIdPatientFile(int id);
         public PatientFile GetWhereIdPatientFile(int id);
         public IEnumerable<PatientFile> GetAllPatientFiles();
     }

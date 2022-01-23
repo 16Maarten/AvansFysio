@@ -32,7 +32,12 @@ namespace Infrastructure
 
         public PatientFile GetWhereIdPatientFile(int id)
         {
-            return _context.PatientFiles.Include(b => b.TreatmentPlan).Include(b => b.Treatments).Include(b => b.Patient).Include(b => b.Remarks).Include(b => b.Physiotherapist).Include(b => b.Student).FirstOrDefault(entity => entity.Id == id);
+            return _context.PatientFiles.Include(b => b.TreatmentPlan).Include(b => b.Treatments).Include(b => b.Patient).Include(b => b.Remarks).Include(b => b.Physiotherapist).Include(b => b.Student).Include(b => b.Physiotherapist.Presence).Include(b => b.Student.Presence).FirstOrDefault(entity => entity.Id == id);
+        }
+
+        public PatientFile GetWherePatientIdPatientFile(int id)
+        {
+            return _context.PatientFiles.Include(b => b.TreatmentPlan).Include(b => b.Treatments).Include(b => b.Patient).Include(b => b.Remarks).Include(b => b.Physiotherapist).Include(b => b.Student).Include(b => b.Physiotherapist.Presence).Include(b => b.Student.Presence).FirstOrDefault(entity => entity.Patient.IdentificationNumber == id);
         }
 
         public async Task UpdatePatientFile(PatientFile patientFile)

@@ -22,10 +22,8 @@ namespace AvansFysio.Models
         [Required(ErrorMessage = "Voer de fysiotherapeut in")]
         public int PhysiotherapistId { get; set; }
         public Physiotherapist Physiotherapist { get; set; }
-        [DataType(DataType.Date)]
         public DateTime DischargeDate { get; set; }
         [Required(ErrorMessage = "Vul de intakedatum in")]
-        [DataType(DataType.Date)]
         public DateTime IntakeDate { get; set; }
         [Required(ErrorMessage = "Voer het aantal behandelingen per week in")]
         public int NumberOfTreatmentsPerWeek { get; set; }

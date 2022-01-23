@@ -1,33 +1,33 @@
 ﻿using AvansFysio.Controllers;
+using AvansFysio.Models;
+using Domain;
 using DomainServices;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Moq;
-using Domain;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using AvansFysio.Models;
 
 namespace AvansFysio.tests
 {
-    public class BR2
+    public class BR4
     {
         [Fact]
-        public void AppointmentWhenPhysiotherapistNotAvailable()
+        public void TreatmentRequiredSpecifics()
         {
             // Arrange
             var patientRepositoryMock = new Mock<IPatientRepository>();
             var patientFileRepositoryMock = new Mock<IPatientFileRepository>();
             var studentRepositoryMock = new Mock<IStudentRepository>();
             var physiotherapistRepositoryMock = new Mock<IPhysiotherapistRepository>();
-            var appointmentRepositoryMock = new Mock<IAppointmentRepository>();
-
-            var sut = new AppointmentController(null, physiotherapistRepositoryMock.Object, studentRepositoryMock.Object, appointmentRepositoryMock.Object, patientRepositoryMock.Object, patientFileRepositoryMock.Object);
+            var treatmentRepositoryMock = new Mock<ITreatmentRepository>();
+            var vektisRepositoryMock = new Mock<IVektisRepository>();
+            var sut = new TreatmentController(patientRepositoryMock.Object, physiotherapistRepositoryMock.Object, studentRepositoryMock.Object, patientFileRepositoryMock.Object, treatmentRepositoryMock.Object, vektisRepositoryMock.Object);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, "test@gmail.com"),
@@ -35,10 +35,11 @@ namespace AvansFysio.tests
             }, "mock"));
             sut.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
 
-            var appointment = new AddAppointmentViewModel()
+            var treatment = new AddTreatmentViewModel()
             {
-                Date = new DateTime(2023, 1, 23, 20, 0, 0),
-                PatientId = 1111
+                Type = "1751",
+                TreatmentDate = DateTime.Now,
+                Room = "oefenzaal"
             };
             Patient patient = new Patient
             {
@@ -63,41 +64,43 @@ namespace AvansFysio.tests
                 Presence = new Presence(1, new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0))
             };
             physiotherapistRepositoryMock.Setup(physiotherapistRepository => physiotherapistRepository.GetAllPhysiotherapists()).Returns(new[] { physio });
-
-            appointmentRepositoryMock.Setup(appointmentRepository => appointmentRepository.GetAllAppointments()).Returns(new[] { new Appointment { Date = new DateTime(2023, 1, 16, 11, 0, 0), Patient = patient, Physiotherapist = physio }, new Appointment { Date = new DateTime(2023, 1, 26, 11, 0, 0), Patient = patient, Physiotherapist = physio } });
+            vektisRepositoryMock.Setup(vektisRepository => vektisRepository.GetTreatmentByCode(It.IsAny<string>())).Returns(new VektisTreatment { Code = "1751", Description = "hoofd", RemarkRequired = true });
 
             // Act
-            var result = sut.AppointmentForm(appointment) as ViewResult;
+            var result = sut.TreatmentForm(1, treatment) as ViewResult;
 
             // Assert
             Assert.False(result.ViewData.ModelState.IsValid);
-            Assert.True(result.ViewData.ModelState.ContainsKey("Date"));
-            Assert.Equal("Deze tijden worden er niet gewerkt op Maandag!", result.ViewData.ModelState["Date"].Errors.First().ErrorMessage);
+            Assert.True(result.ViewData.ModelState.ContainsKey("Specifics"));
+            Assert.Equal("Bij dit type behandeling moeten de bijzonderheden ingevuld worden!", result.ViewData.ModelState["Specifics"].Errors.First().ErrorMessage);
             Assert.Null(result.ViewName);
         }
 
         [Fact]
-        public void AppointmentWhenPhysiotherapistAlreadyHasAnAppointment()
+        public void TreatmentAddWorking()
         {
             // Arrange
             var patientRepositoryMock = new Mock<IPatientRepository>();
             var patientFileRepositoryMock = new Mock<IPatientFileRepository>();
             var studentRepositoryMock = new Mock<IStudentRepository>();
             var physiotherapistRepositoryMock = new Mock<IPhysiotherapistRepository>();
-            var appointmentRepositoryMock = new Mock<IAppointmentRepository>();
-
-            var sut = new AppointmentController(null, physiotherapistRepositoryMock.Object, studentRepositoryMock.Object, appointmentRepositoryMock.Object, patientRepositoryMock.Object, patientFileRepositoryMock.Object);
+            var treatmentRepositoryMock = new Mock<ITreatmentRepository>();
+            var vektisRepositoryMock = new Mock<IVektisRepository>();
+            var sut = new TreatmentController(patientRepositoryMock.Object, physiotherapistRepositoryMock.Object, studentRepositoryMock.Object, patientFileRepositoryMock.Object, treatmentRepositoryMock.Object, vektisRepositoryMock.Object);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, "test@gmail.com"),
+                    new Claim(ClaimTypes.Name, "test@gmail.com"),
 
             }, "mock"));
             sut.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
 
-            var appointment = new AddAppointmentViewModel()
+            var treatment = new AddTreatmentViewModel()
             {
-                Date = new DateTime(2023, 1, 23, 10, 0, 0),
-                PatientId = 1111
+                PatientFileId = 1,
+                Type = "1751",
+                TreatmentDate = DateTime.Now,
+                PersonEmail = "test@gmail.com",
+                Room = "oefenzaal"
             };
             Patient patient = new Patient
             {
@@ -109,30 +112,31 @@ namespace AvansFysio.tests
                 PatientNumber = 1111,
                 Img = "img"
             };
+            List<Treatment> treatments = new List<Treatment>();
+            treatments.Add(new Treatment());
             patientRepositoryMock.Setup(patientRepository => patientRepository.GetAllPatients()).Returns(new[] { patient });
-            patientFileRepositoryMock.Setup(patientFileRepository => patientFileRepository.GetAllPatientFiles()).Returns(
-                new[]{
-                new PatientFile() {
-                Id = 1,
-                Patient = patient,
-                TreatmentPlan = new TreatmentPlan() { NumberOfTreatmentsPerWeek = 2, DurationTreatment = 30 },
-            }});
+            patientFileRepositoryMock.Setup(patientFileRepository => patientFileRepository.GetWhereIdPatientFile(It.IsAny<int>())).Returns(
+                    new PatientFile
+                    {
+                        Id = 1,
+                        Patient = patient,
+                        TreatmentPlan = new TreatmentPlan() { NumberOfTreatmentsPerWeek = 2, DurationTreatment = 30 },
+                        Treatments = treatments as ICollection<Treatment>
+                    });
+
             Physiotherapist physio = new Physiotherapist(1, "test", "test@gmail.com", "test", 124142141, 12413131)
             {
                 Presence = new Presence(1, new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0))
             };
             physiotherapistRepositoryMock.Setup(physiotherapistRepository => physiotherapistRepository.GetAllPhysiotherapists()).Returns(new[] { physio });
-
-            appointmentRepositoryMock.Setup(appointmentRepository => appointmentRepository.GetAllAppointments()).Returns(new[] { new Appointment { Date = new DateTime(2023, 1, 23, 10, 0, 0), Physiotherapist = physio, Patient = patient }, new Appointment { Date = new DateTime(2023, 1, 16, 11, 0, 0), Physiotherapist = physio, Patient = patient } });
+            vektisRepositoryMock.Setup(vektisRepository => vektisRepository.GetTreatmentByCode(It.IsAny<string>())).Returns(new VektisTreatment { Code = "1751", Description = "hoofd", RemarkRequired = false });
 
             // Act
-            var result = sut.AppointmentForm(appointment) as ViewResult;
+            var result = sut.TreatmentForm(1, treatment);
 
             // Assert
-            Assert.False(result.ViewData.ModelState.IsValid);
-            Assert.True(result.ViewData.ModelState.ContainsKey("Date"));
-            Assert.Equal("Er staat al een afspraak gepland op dit moment!", result.ViewData.ModelState["Date"].Errors.First().ErrorMessage);
-            Assert.Null(result.ViewName);
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Index", redirectToActionResult.ActionName);
         }
     }
 }

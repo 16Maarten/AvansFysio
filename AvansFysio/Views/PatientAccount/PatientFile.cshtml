@@ -1,4 +1,4 @@
-﻿@model PatientFileViewModel
+﻿@model Domain.PatientFile
 @{
     ViewData["Title"] = "Patient dossier";
 }
@@ -32,7 +32,7 @@
         </div>
         <br>
         <br>
-        @foreach (RemarkViewModel remark in Model.Remarks.ToViewModel().Where(c => c.Visible == true))
+        @foreach (Domain.Remark remark in Model.Remarks.Where(c => c.Visible == true))
         {
             <div class="card m-2">
                 <div class="card-header">

@@ -33,7 +33,7 @@ namespace AvansFysio.Controllers
         [Authorize]
         public IActionResult Remark(int id)
         {
-            return View(_remarkRepository.GetWhereIdRemark(id).ToViewModel());
+            return View(_remarkRepository.GetWhereIdRemark(id));
         }
 
         [Authorize(Policy = "EmployeeOnly")]

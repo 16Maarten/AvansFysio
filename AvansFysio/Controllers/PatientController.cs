@@ -22,7 +22,6 @@ namespace AvansFysio.Controllers
         private readonly IPatientRepository _patientRepository;
     private readonly IStudentRepository _studentRepository;
     private readonly IPhysiotherapistRepository _physiotherapistRepository;
-    //private readonly IWebHostEnvironment _webHostEnvironment;
 
 
     public PatientController( IPatientRepository patientRepository, IStudentRepository studentRepository, IPhysiotherapistRepository physiotherapistRepository)
@@ -34,12 +33,12 @@ namespace AvansFysio.Controllers
 
     public IActionResult Index()
     {
-        return View(_patientRepository.GetAllPatients().ToViewModel());
+        return View(_patientRepository.GetAllPatients());
     }
 
     public IActionResult Patient(int id)
     {
-            var patient = _patientRepository.GetWhereIdPatient(id).ToViewModel();
+            var patient = _patientRepository.GetWhereIdPatient(id);
             return View(patient);
     }
 
@@ -114,7 +113,7 @@ namespace AvansFysio.Controllers
         }
     }
 
-        public static string imgToBase64(IFormFile? img)
+        public static string imgToBase64(IFormFile img)
         {
             if (img != null && img.Length > 0)
             {

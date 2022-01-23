@@ -35,19 +35,18 @@ namespace AvansFysio.Controllers
         [HttpGet]
         public IActionResult PatientFileForm()
         {
-            var model = new AddPatientFileViewModel();
             PrefillSelectOptions();
-            return View(model);
+            return View();
         }
 
         public IActionResult PatientFile(int id)
         {
-                return View(_patientFileRepository.GetWhereIdPatientFile(id).ToViewModel());
+                return View(_patientFileRepository.GetWhereIdPatientFile(id));
         }
 
         public IActionResult Index()
         {
-            return View(_patientFileRepository.GetAllPatientFiles().ToViewModel());
+            return View(_patientFileRepository.GetAllPatientFiles());
         }
 
         private void PrefillSelectOptions()
@@ -58,7 +57,7 @@ namespace AvansFysio.Controllers
             var students = _studentRepository.GetAllStudents().Prepend(new Student { Id = -1, Name = "Select a student" });
             ViewBag.Students = new SelectList(students, "Id", "Name");
 
-            var physiotherapists = _physiotherapistRepository.GetAllPhysiotherapists();//.Prepend(new Physiotherapist { Id = -1, Name = "Select a physiotherapist" });
+            var physiotherapists = _physiotherapistRepository.GetAllPhysiotherapists();
             ViewBag.Physiotherapists = new SelectList(physiotherapists, "Id", "Name");
 
             var diagnoses = _vektisRepository.GetAllDiagnoses().Prepend(new VektisDiagnosis {Code = -1});
@@ -85,15 +84,20 @@ namespace AvansFysio.Controllers
             }
             if (patientFile.StudentId != -1 && patientFile.PhysiotherapistId == -1 || patientFile.PhysiotherapistId == -1)
             {
-                ModelState.AddModelError(nameof(patientFile.PhysiotherapistId),
-                    "Er moet een fysiotherapeut opgegeven worden!");
+                ModelState.AddModelError(nameof(patientFile.PhysiotherapistId),"Er moet een fysiotherapeut opgegeven worden!");
             }
             if (patientFile.DiagnosticCode == -1)
             {
-                ModelState.AddModelError(nameof(patientFile.DiagnosticCode),
-                    "Er moet een DHCP Code opgegeven worden!");
+                ModelState.AddModelError(nameof(patientFile.DiagnosticCode),"Er moet een DHCP Code opgegeven worden!");
             }
-
+            if (patientFile.DischargeDate > patientFile.IntakeDate)
+            {
+                ModelState.AddModelError(nameof(patientFile.DiagnosticCode),"De ontslag datum kan niet voor de intakedatum liggen!");
+            }
+            if (patientFile.IntakeDate < DateTime.Now)
+            {
+                ModelState.AddModelError(nameof(patientFile.DiagnosticCode), "De intakedatum kan niet in het evrleden liggen!");
+            }
             if (ModelState.IsValid)
             {
                 string DiagnoseDescription ="";

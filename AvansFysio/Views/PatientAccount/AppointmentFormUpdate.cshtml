@@ -1,0 +1,19 @@
+﻿@model AvansFysio.Models.AddAppointmentViewModel
+@{
+    ViewData["Title"] = "Afspraak aanpassen";
+}
+<div>
+    <h1 class="avans text-center font-weight-bold">Afspraak aanpassen</h1>
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="Date">Naam:</label>
+            <input class="form-control" asp-for="Date" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-danger btn-block avans-background">Afspraak toevoegen</button>
+    </form>
+</div>
+<br />
+<div>
+    <a class="btn btn-danger avans-background float-right" href="javascript:void(0);" onclick="history.go(-1);">Terug</a>
+</div>

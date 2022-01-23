@@ -19,16 +19,13 @@ namespace AvansFysio.Controllers
     [Authorize(Policy = "EmployeeOnly")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IPatientRepository _patientRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IPhysiotherapistRepository _physiotherapistRepository;
-        //private readonly IWebHostEnvironment _webHostEnvironment;
 
 
-        public HomeController(ILogger<HomeController> logger, IPatientRepository patientRepository, IStudentRepository studentRepository, IPhysiotherapistRepository physiotherapistRepository)
+        public HomeController(IPatientRepository patientRepository, IStudentRepository studentRepository, IPhysiotherapistRepository physiotherapistRepository)
         {
-            _logger = logger;
             _patientRepository = patientRepository;
             _studentRepository = studentRepository;
             _physiotherapistRepository = physiotherapistRepository;
@@ -36,7 +33,7 @@ namespace AvansFysio.Controllers
 
         public IActionResult Index()
         {
-            return View(_patientRepository.GetAllPatients().ToViewModel());
+            return View(_patientRepository.GetAllPatients());
         }
        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

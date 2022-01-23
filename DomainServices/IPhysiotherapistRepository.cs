@@ -13,5 +13,6 @@ namespace DomainServices
         public IEnumerable<Physiotherapist> GetAllPhysiotherapists();
         public IQueryable GetPhysiotherapists();
         public int CountPhysiotherapists();
+        public Physiotherapist GetWhereEmailPhysiotherapist(string email);
     }
 }

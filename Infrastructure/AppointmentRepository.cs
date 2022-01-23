@@ -32,7 +32,7 @@ namespace Infrastructure
 
         public async Task UpdateAppointment(Appointment appointment)
         {
-            _context.Remove(appointment);
+            _context.Update(appointment);
             await _context.SaveChangesAsync();
         }
 

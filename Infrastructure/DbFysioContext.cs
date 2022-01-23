@@ -23,7 +23,9 @@ namespace Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Presence>().HasData(new Presence(1, new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0)));
-            modelBuilder.Entity<Physiotherapist>().HasData(new Physiotherapist(1, "Peter", "Peter@fysio-avans.nl", "061234567", 5165842, 123456789));
+            modelBuilder.Entity<Presence>().HasData(new Presence(2, new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0), new TimeSpan(8, 0, 0), new TimeSpan(18, 0, 0)));
+            modelBuilder.Entity<Physiotherapist>().HasData(new Physiotherapist(1, "Maarten", "Maarten@gmail.com", "061234567", 5165842, 123456789));
+            modelBuilder.Entity<Student>().HasData(new Student() {Id = 1,Name= "Melvin",Email = "Melvin@gmail.com",PhoneNumber = "06435128745",IdentificationNumber = 5165842});
         }
     }
 }

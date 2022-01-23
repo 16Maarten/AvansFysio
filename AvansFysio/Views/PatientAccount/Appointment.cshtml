@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Domain.Appointment>
+@{
+    ViewData["Title"] = "Afspraken";
+}
+<div class="my-4">
+    <h1 class="avans font-weight-bold float-left">Afspraken</h1>
+    <a asp-action="AppointmentForm" class="btn btn-danger avans-background  text-center float-right">Toevoegen</a>
+</div>
+<div class="card text-center mt-2 p-1">
+    <h2 class="mt-2 avans"> Maandag</h2>
+    @foreach (Domain.Appointment appointment in Model)
+    {
+        if (appointment.Date.DayOfWeek.ToString().Equals("Monday"))
+        {
+            <div class="card mt-2 mx-3">
+                <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+                @if (appointment.Date > DateTime.Now.AddDays(1))
+                {
+                    <div class="row justify-content-center mb-2">
+                    <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                    <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
+                </div>
+                }
+            </div>
+        }
+    }
+</div>
+<div class="card text-center mt-2 p-1">
+    <h2 class="mt-2 avans"> Dinsdag</h2>
+    @foreach (Domain.Appointment appointment in Model)
+    {
+        if (appointment.Date.DayOfWeek.ToString().Equals("Tuesday"))
+        {
+            <div class="card text-center mt-2 mx-3">
+                <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+                <div class="row justify-content-center mb-2">
+                    <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                    <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
+                </div>
+            </div>
+        }
+    }
+</div>
+<div class="card text-center mt-2 p-1">
+    <h2 class="mt-2 avans"> Woensdag</h2>
+    @foreach (Domain.Appointment appointment in Model)
+    {
+        if (appointment.Date.DayOfWeek.ToString().Equals("Wednesday"))
+        {
+            <div class="card text-center mt-2 mx-3">
+                <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+                <div class="row justify-content-center mb-2">
+                    <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                    <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
+                </div>
+            </div>
+        }
+    }
+</div>
+<div class="card text-center mt-2 p-1">
+    <h2 class="mt-2 avans"> Donderdag</h2>
+    @foreach (Domain.Appointment appointment in Model)
+    {
+        if (appointment.Date.DayOfWeek.ToString().Equals("Thursday"))
+        {
+            <div class="card text-center mt-2 mx-3">
+                <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+                <div class="row justify-content-center mb-2">
+                    <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                    <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
+                </div>
+            </div>
+        }
+    }
+</div>
+<div class="card text-center mt-2 p-1">
+    <h2 class="mt-2 avans"> Vrijdag</h2>
+    @foreach (Domain.Appointment appointment in Model)
+    {
+        if (appointment.Date.DayOfWeek.ToString().Equals("Friday"))
+        {
+            <div class="card text-center mt-2 mx-3">
+                <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+                <div class="row justify-content-center mb-2">
+                    <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                    <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+

@@ -34,7 +34,7 @@ namespace AvansFysio.Controllers
         }
         public IActionResult Treatment(int id)
         {
-            return View(_treatmentRepository.GetWhereIdTreatment(id).ToViewModel());
+            return View(_treatmentRepository.GetWhereIdTreatment(id));
         }
 
         [HttpGet]
@@ -56,7 +56,7 @@ namespace AvansFysio.Controllers
             }
             else
             {
-                if (_vektisRepository.GetTreatmentByCode(treatment.Type).RemarkRequired)
+                if (_vektisRepository.GetTreatmentByCode(treatment.Type).RemarkRequired && treatment.Specifics == null)
                 {
                     ModelState.AddModelError(nameof(treatment.Specifics), "Bij dit type behandeling moeten de bijzonderheden ingevuld worden!");
                 }
@@ -127,14 +127,14 @@ namespace AvansFysio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TreatmentForm(int id,AddTreatmentViewModel treatment)
+        public IActionResult TreatmentForm(int id,AddTreatmentViewModel treatment)
         {
             if (treatment.Type.Equals("Kies een behandeling"))
             {
                 ModelState.AddModelError(nameof(treatment.Type), "Er moet een type behandeling gekozen worden");
             }
             else {
-                if (_vektisRepository.GetTreatmentByCode(treatment.Type).RemarkRequired) {
+                if (_vektisRepository.GetTreatmentByCode(treatment.Type).RemarkRequired && treatment.Specifics == null) {
                     ModelState.AddModelError(nameof(treatment.Specifics), "Bij dit type behandeling moeten de bijzonderheden ingevuld worden!");
                 }
             }
@@ -161,7 +161,7 @@ namespace AvansFysio.Controllers
             }
                 var patientFile = _patientFileRepository.GetWhereIdPatientFile(id);
                 patientFile.Treatments.Add(result);
-                await _patientFileRepository.UpdatePatientFile(patientFile);
+                _patientFileRepository.UpdatePatientFile(patientFile);
             return RedirectToAction("Index","PatientFile");
             }
             else

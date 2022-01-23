@@ -24,7 +24,7 @@ namespace Infrastructure
 
         public Student GetWhereIdStudent(int id)
         {
-            return _context.Students.Find(id);
+            return _context.Students.Include(b => b.Presence).FirstOrDefault(entity => entity.Id == id);
         }
     }
 }

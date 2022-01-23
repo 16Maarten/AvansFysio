@@ -11,9 +11,13 @@
     @foreach (Domain.Appointment appointment in Model)
     {
         if(appointment.Date.DayOfWeek.ToString().Equals("Monday")) { 
-            <div class="card text-center mt-2 mx-3">
-                <h4 class="m-3">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+        <div class="card mt-2 mx-3">
+            <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+            <div class="row justify-content-center mb-2">
+                <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
             </div>
+        </div>
         }
     }
 </div>
@@ -23,9 +27,13 @@
     {
         if (appointment.Date.DayOfWeek.ToString().Equals("Tuesday"))
         {
-            <div class="card text-center mt-2 mx-3">
-                <h4 class="m-3">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+        <div class="card text-center mt-2 mx-3">
+            <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+            <div class="row justify-content-center mb-2">
+                <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
             </div>
+        </div>
         }
     }
 </div>
@@ -35,9 +43,13 @@
     {
         if (appointment.Date.DayOfWeek.ToString().Equals("Wednesday"))
         {
-            <div class="card text-center mt-2 mx-3">
-                <h4 class="m-3">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+        <div class="card text-center mt-2 mx-3">
+            <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+            <div class="row justify-content-center mb-2">
+                <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
             </div>
+        </div>
         }
     }
 </div>
@@ -47,9 +59,13 @@
     {
         if (appointment.Date.DayOfWeek.ToString().Equals("Thursday"))
         {
-            <div class="card text-center mt-2 mx-3">
-                <h4 class="m-3">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+        <div class="card text-center mt-2 mx-3">
+            <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+            <div class="row justify-content-center mb-2">
+                <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
             </div>
+        </div>
         }
     }
 </div>
@@ -59,9 +75,13 @@
     {
         if (appointment.Date.DayOfWeek.ToString().Equals("Friday"))
         {
-            <div class="card text-center mt-2 mx-3">
-                <h4 class="m-3">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+        <div class="card text-center mt-2 mx-3">
+            <h4 class="m-3 ">Patient: @appointment.Patient.Name  @appointment.Date.ToShortTimeString() - @appointment.Date.AddMinutes(appointment.SessionLength).ToShortTimeString()</h4>
+            <div class="row justify-content-center mb-2">
+                <a asp-action="AppointmentFormUpdate" asp-route-id="@appointment.Id" class="btn btn-danger avans-background text-center  mx-1 col-5">Aanpassen</a>
+                <a asp-action="Delete" asp-route-id="@appointment.Id" class="btn btn-danger avans-background  text-center mx-1 col-5">Verwijderen</a>
             </div>
+        </div>
         }
     }
 </div>
